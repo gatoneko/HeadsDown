@@ -1,16 +1,22 @@
 <% include _header %>
+<script src="./javascripts/create_poll.js"></script>
 <h1> Create Poll</h1>
-<form action="/create_poll" method="post" autocomplete="off">
+<form id="choiceForm" action="/create_poll" method="post" autocomplete="off">
 	<div>
 		<label for="title">Title</label>
 		<input type="text" name="title">
 	</div>
-	<div>
-		<label for="choices">Title/Question</label>
-		<input type="text" name="choices">
-	</div>
-		<label for="choices">Title/Question</label>
-		<input type="text" name="choices">
+	<div id="choicesContainer">
+		<div>
+			<label for="choices">Choice: </label>
+			<input type="text" name="choices">
+		</div>
+			<label for="choices">Choice: </label>
+			<input type="text" name="choices">
+		</div>
+	</div>	
+	<div id="plusButtonDiv">
+		<button type="button" onclick="addChoice()">+</button>
 	</div>
 
 	<div>
