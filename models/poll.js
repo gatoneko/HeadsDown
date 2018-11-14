@@ -1,5 +1,6 @@
-module.exports = function Poll(link, title, choiceTitles) {
+module.exports = function Poll(link, adminLink, title, choiceTitles) {
 	this.link = link;
+	this.adminLink = adminLink;
 	this.title = title;
 	this.choiceTitles = choiceTitles;
 	this.choiceVoteCount = new Array(choiceTitles.length).fill(0);
@@ -14,6 +15,10 @@ module.exports = function Poll(link, title, choiceTitles) {
 		// for (var i = 0; i < this.votedUsers.length; i++) {
 		// 	process.stdout.write(this.votedUsers[i]);
 		// }
+	}
+
+	this.isAdminLink = function(query) {
+		return query === this.adminLink;
 	}
 
 	this.userExists = function(cookieId) {
