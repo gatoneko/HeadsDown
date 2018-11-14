@@ -28,11 +28,13 @@ router.post('/create_poll', function(req, res, next) {
 	// console.log(req.body);
 	var title = req.body.title;
 	var choices = req.body.choices;
-	var link = db.activateLink();
-	polls.addPoll(link, title, choices);
+	// var link = db.activateLink();
+	// polls.addPoll(link, title, choices);
+	var linkpair = db.activateLinkPair();
+	polls.addPoll(linkpair[0], linkpair[1], title, choices);
 	// console.log('link: ' + link);
 	/* TODO push that to a database */
-	res.redirect('/' + link);
+	res.redirect('/' + linkpair[1]);
 });
 
 router.get(/\w+/, function(req, res, next) {
@@ -50,8 +52,12 @@ router.get(/\w+/, function(req, res, next) {
 		// return;
 	}
 	var poll = polls.getPoll(linkKeyword);
-	console.log("current cookie: " + req.cookies.id);
-	res.render('poll_page.ejs', poll);
+	// console.log("current cookie: " + req.cookies.id);
+	if (poll.isAdminLink(linkKeyword)) {
+		res.render('poll_admin_page.ejs', poll);
+	} else {
+		res.render('poll_page.ejs', poll);		
+	}
 	/*TODO render poll page */
 });
 

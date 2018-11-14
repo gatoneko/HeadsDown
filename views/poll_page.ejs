@@ -15,13 +15,5 @@
 		<% } %>
 	</ul>
 	<br><br>
-	<h2>Results:</h2>
-	<ul>
-		<% for (var i = 0; i < choiceTitles.length; i++) { %>
-			<li>
-				<b><%= choiceTitles[i] %></b>
-				<%= choiceVoteCount[i] %>
-			</li>
-		<% } %>
-	</ul>
+<% include _results%>
 <% include _footer %>
