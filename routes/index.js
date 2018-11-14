@@ -24,13 +24,13 @@ router.get('/create_poll', function(req, res, next) {
 });
 
 router.post('/create_poll', function(req, res, next) {
-	console.log("req body is: ");
-	console.log(req.body);
+	// console.log("req body is: ");
+	// console.log(req.body);
 	var title = req.body.title;
 	var choices = req.body.choices;
 	var link = db.activateLink();
 	polls.addPoll(link, title, choices);
-	console.log('link: ' + link);
+	// console.log('link: ' + link);
 	/* TODO push that to a database */
 	res.redirect('/' + link);
 });
@@ -40,33 +40,50 @@ router.get(/\w+/, function(req, res, next) {
 	var linkKeyword = req.path.slice(1);
 	/*TODO check if poll page exists */
 	if (db.isActive(linkKeyword) !== undefined) {
-		console.log("it's there: " + linkKeyword);
+		// console.log("it's there: " + linkKeyword);
 		// res.send("it is there.");
 		// return;
 	}
 	if (db.isActive(linkKeyword) === undefined) {
-		console.log("it's not there: " + linkKeyword);
+		// console.log("it's not there: " + linkKeyword);
 		// res.send("it's not there.");
 		// return;
 	}
 	var poll = polls.getPoll(linkKeyword);
-	// console.log(poll);
+	console.log("current cookie: " + req.cookies.id);
 	res.render('poll_page.ejs', poll);
 	/*TODO render poll page */
 });
 
 router.post('/:pollId(\\w+)', function(req, res, next) {
-	console.log('gotta increment');
-	console.log(req.params.pollId);
-	console.log("vote " + req.body.choiceIndex);
 
 	var poll = polls.getPoll(req.params.pollId);
-
-	poll.incrementChoice(req.body.choiceIndex);
-	/* todo: update database with find id with req.path
-		and increment the vote number by one */
+	// console.log('-------------------------------');
+	// console.log("voted users before: " + poll.votedUsers);
+	// console.log("req.cookies.id: " + req.cookies.id);
+	if (poll.userExists(parseInt(req.cookies.id))) { 
+		console.log("exists");
+		// res.send('you can\'t vote twice'); 
+		// res.redirect('/' + req.params.pollId);
+	}
+	else {
+		var cookieId = getRandomInt(9999);
+		poll.addVotedUser(cookieId);
+		res.cookie('id', cookieId, { expires: new Date(Date.now() + 900000)});
+		// console.log("cookieid: " + cookieId);
+		poll.incrementChoice(req.body.choiceIndex);
+		/* todo: update database with find id with req.path
+			and increment the vote number by one */
+	}
+	// console.log("voted users after: " + poll.votedUsers);	
+	// console.log('-------------------------------');
 	res.redirect('/' + req.params.pollId);
 
 });
+
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
 
 module.exports = router;
