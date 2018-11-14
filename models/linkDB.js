@@ -19,6 +19,14 @@ function LinkDB(w_l){
 		return result;
 	};
 
+	/* returns array of two links-- one for admin and one for vote */
+	this.activateLinkPair = function() {
+		var result = new Array();
+		result.push(this.activateLink());
+		result.push(this.activateLink());
+		return result;
+	}
+
 	this.getActiveLinks = function () {
 		return this.activeLinks;
 	}
