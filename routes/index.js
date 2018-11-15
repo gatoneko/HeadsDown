@@ -25,13 +25,16 @@ router.get('/create_poll', function(req, res, next) {
 
 router.post('/create_poll', function(req, res, next) {
 	// console.log("req body is: ");
-	// console.log(req.body);
-	var title = req.body.title;
-	var choices = req.body.choices;
+	// var title = req.body.title;
+	// var choices = req.body.choices;
 	// var link = db.activateLink();
 	// polls.addPoll(link, title, choices);
 	var linkpair = db.activateLinkPair();
-	polls.addPoll(linkpair[0], linkpair[1], title, choices);
+	req.body.link = linkpair[0];
+	req.body.adminLink = linkpair[1];
+	console.log(req.body);
+	polls.addPoll(req.body);
+	// polls.addPoll(linkpair[0], linkpair[1], title, choices);
 	// console.log('link: ' + link);
 	/* TODO push that to a database */
 	res.redirect('/' + linkpair[1]);

@@ -8,11 +8,11 @@
 	</div>
 	<div id="choicesContainer">
 		<div>
-			<label for="choices">Choice: </label>
-			<input type="text" name="choices">
+			<label for="choiceTitles">Choice: </label>
+			<input type="text" name="choiceTitles">
 		</div>
-			<label for="choices">Choice: </label>
-			<input type="text" name="choices">
+			<label for="choiceTitles">Choice: </label>
+			<input type="text" name="choiceTitles">
 		</div>
 	</div>	
 	<div id="plusButtonDiv">
@@ -29,6 +29,7 @@
 			<input type="number" id="vote-limit" name="vote-limit" placeholder="unlimited">
 		</div>
 		<div>
+			<input type="hidden" id=id="limit-by-cookies" name="limit-by-cookies" value="false">
 			<input type="checkbox" id="limit-by-cookies" name="limit-by-cookies">
 			<label for="limit-by-cookies">Restrict voting by cookies</label>
 		</div>
@@ -53,7 +54,7 @@
 			<input type="date" id="poll-closes" name="poll-closes"　min="2017-04-01" max="2020-01-01">
 		</div>
 		<div>
-			<label for="poll-expires">This poll will be exist until:</label>
+			<label for="poll-expires">This poll will exist until:</label>
 			<input type="datetime-local" id="poll-expires" name="poll-expires" max=""2019-01-01T22:22:55"">
 		</div>
 	</div>

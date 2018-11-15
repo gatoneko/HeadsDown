@@ -1,25 +1,24 @@
-module.exports = function Poll(link, adminLink, title, choiceTitles, voteLimit, isIpRestricted, isCookieRestricted, voteEndingDate, pollExpirationDate, votersCanSeeResultsBefore, votersCanSeeResultsAfter, canSelectMultipleChoices) {
-	
-	this.link = link;
-	this.adminLink = adminLink;
+module.exports = function Poll(paramObj) {
+	this.link = paramObj.link;
+	this.adminLink = paramObj.adminLink;
 
-	this.title = title;
-	this.choiceTitles = choiceTitles;
-	this.choiceVoteCount = new Array(choiceTitles.length).fill(0);
+	this.title = paramObj.title;
+	this.choiceTitles = paramObj.choiceTitles;
+	this.choiceVoteCount = new Array(this.choiceTitles.length).fill(0);
 	
 	this.votedCookies = new Array();
 	this.votedIps = new Array();
 
-	this.voteLimit = voteLimit; //undefined === unlimited
-	this.isIpRestricted = isIpRestricted;
-	this.isCookieRestricted = isCookieRestricted;
+	this.voteLimit = paramObj.voteLimit; //undefined === unlimited
+	this.isIpRestricted = paramObj.isIpRestricted;
+	this.isCookieRestricted = paramObj.isCookieRestricted;
 
-	this.voteEndingDate = voteEndingDate; //Date object. Includes min & hour
-	this.pollExpirationDate = pollExpirationDate; //When poll is deleted & link recycled
+	this.voteEndingDate = paramObj.voteEndingDate; //Date object. Includes min & hour
+	this.pollExpirationDate = paramObj.pollExpirationDate; //When poll is deleted & link recycled
 
-	this.votersCanSeeResultsBefore = votersCanSeeResultsBefore; // bf voitng bool
-	this.votersCanSeeResultsAfter = votersCanSeeResultsAfter;
-	this.canSelectMultipleChoices = canSelectMultipleChoices //boolean
+	this.votersCanSeeResultsBefore = paramObj.votersCanSeeResultsBefore; // bf voting bool
+	this.votersCanSeeResultsAfter = paramObj.votersCanSeeResultsAfter;
+	this.canSelectMultipleChoices = paramObj.canSelectMultipleChoices //boolean
 	
 	this.pollIsOpen = true;
 

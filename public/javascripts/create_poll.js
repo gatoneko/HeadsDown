@@ -2,10 +2,10 @@
 function addChoice() {
 	var newInput = document.createElement("input");
 		newInput.setAttribute("type", "text");
-		newInput.setAttribute("name", "choices");
+		newInput.setAttribute("name", "choiceTitles");
 		
 	var newLabel = document.createElement("label");
-		newLabel.setAttribute("for","choices");
+		newLabel.setAttribute("for","choiceTitles");
 		var text = document.createTextNode("Choice: ");
 		newLabel.appendChild(text);
 
