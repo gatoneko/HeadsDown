@@ -67,14 +67,14 @@ router.post('/:pollId(\\w+)', function(req, res, next) {
 	// console.log('-------------------------------');
 	// console.log("voted users before: " + poll.votedUsers);
 	// console.log("req.cookies.id: " + req.cookies.id);
-	if (poll.userExists(parseInt(req.cookies.id))) { 
+	if (poll.cookieExists(parseInt(req.cookies.id))) { 
 		console.log("exists");
 		// res.send('you can\'t vote twice'); 
 		// res.redirect('/' + req.params.pollId);
 	}
 	else {
 		var cookieId = getRandomInt(9999);
-		poll.addVotedUser(cookieId);
+		poll.addVotedCookie(cookieId);
 		res.cookie('id', cookieId, { expires: new Date(Date.now() + 900000)});
 		// console.log("cookieid: " + cookieId);
 		poll.incrementChoice(req.body.choiceIndex);
