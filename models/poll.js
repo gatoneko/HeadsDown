@@ -13,14 +13,15 @@ module.exports = function Poll(paramObj) {
 	this.isIpRestricted = paramObj.isIpRestricted || false;
 	this.isCookieRestricted = paramObj.isCookieRestricted || false;
 
-	this.voteEndingDate = paramObj.voteEndingDate; //Date object. Includes min & hour
-	this.pollExpirationDate = paramObj.pollExpirationDate; //When poll is deleted & link recycled
+	this.voteEndingDate = new Date(paramObj.voteEndingDate); //Date object. Includes min & hour
+	this.pollExpirationDate = new Date (paramObj.pollExpirationDate); //When poll is deleted & link recycled
 
 	this.votersCanSeeResultsBefore = paramObj.votersCanSeeResultsBefore || false; // bf voting bool
 	this.votersCanSeeResultsAfter = paramObj.votersCanSeeResultsAfter || false;
 	this.canSelectMultipleChoices = paramObj.canSelectMultipleChoices || false; //boolean
 	
 	this.pollIsOpen = true;
+	this.pollIsExpired = false;
 
 	this.incrementManyChoices = function(choiceIndexArray) {
 		for (var i = 0; i < choiceIndexArray; i++) {
@@ -116,7 +117,24 @@ module.exports = function Poll(paramObj) {
 	}
 
 	this.endPoll = function() {
-		pollIsOpen = false;
+		this.pollIsOpen = false;
+	}
+
+	this.expirePoll = function() {
+		this.pollIsExpired = true;
+	}
+
+	this.checkVoteAndExpirationDates = function(timeOfQuery) {
+		if (timeOfQuery > this.voteEndingDate) {
+			this.endPoll();
+		}
+		if (timeOfQuery > this.pollExpirationDate) {
+			this.expirePoll();
+		}
+	}
+
+	this.isExpired = function() {
+		return this.pollIsExpired;
 	}
 
 	this.setVotersCanSeeResultsBefore = function(boolArg) {

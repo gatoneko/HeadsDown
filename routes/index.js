@@ -57,7 +57,12 @@ router.get(/\w+/, function(req, res, next) {
 		// return;
 	}
 	var poll = polls.getPoll(linkKeyword);
-	// console.log("current cookie: " + req.cookies.id);
+	//bang is undefined or null falsy
+	if (!poll) { //will this go to the 404?? 
+		next();
+		return;
+	}
+	poll.checkVoteAndExpirationDates(Date.now());
 	if (poll.isAdminLink(linkKeyword)) {
 		res.render('poll_admin_page.ejs', poll);
 	} else {
@@ -69,27 +74,9 @@ router.get(/\w+/, function(req, res, next) {
 router.post('/:pollId(\\w+)', function(req, res, next) {
 
 	var poll = polls.getPoll(req.params.pollId);
+	poll.checkVoteAndExpirationDates(Date.now());
 	var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
 	res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
-	// console.log('-------------------------------');
-	// console.log("voted users before: " + poll.votedUsers);
-	// console.log("req.cookies.id: " + req.cookies.id);
-	// if (poll.cookieExists(parseInt(req.cookies.id))) { 
-	// 	console.log("exists");
-	// 	// res.send('you can\'t vote twice'); 
-	// 	// res.redirect('/' + req.params.pollId);
-	// }
-	// else {
-	// 	var cookieId = getRandomInt(9999);
-	// 	poll.addVotedCookie(cookieId);
-	// 	res.cookie('id', cookieId, { expires: new Date(Date.now() + 900000)});
-	// 	// console.log("cookieid: " + cookieId);
-	// 	poll.incrementChoice(req.body.choiceIndex);
-	// 	/* todo: update database with find id with req.path
-	// 		and increment the vote number by one */
-	// }
-	// console.log("voted users after: " + poll.votedUsers);	
-	// console.log('-------------------------------');
 	res.redirect('/' + req.params.pollId);
 
 });
