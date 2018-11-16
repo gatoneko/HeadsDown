@@ -36,6 +36,10 @@ module.exports = function Poll(paramObj) {
 		this.votedCookies.push(cookieId);
 	}
 
+	this.addVotedIp = function(IpId) {
+		this.votedIps.push(IpId);
+	}
+
 	this.isAdminLink = function(query) {
 		return query === this.adminLink;
 	}

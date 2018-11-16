@@ -1,9 +1,11 @@
 var db = require('../models/linkDB');
 var polls = require('../models/polls');
+var fraudCheck = require('../models/fraudCheckUtil.js')
 
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+
 
 router.use(bodyParser.urlencoded({ extended: false }));
 

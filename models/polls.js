@@ -4,10 +4,6 @@ const Poll = require('./poll');
 function PollArray(){
 	this.polls = new Array();
 
-	// this.addPoll = function(l, al, t, c) {
-	// 	this.polls.push(new Poll(l, al, t, c));
-	// };
-
 	this.addPoll = function(paramObj) {
 		this.polls.push(new Poll(paramObj));
 	}
