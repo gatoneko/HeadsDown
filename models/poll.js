@@ -32,28 +32,29 @@ module.exports = function Poll(paramObj) {
 		this.choiceVoteCount[choiceIndex] += 1;
 	}
 
-	this.incrementChoice = function(choiceIndex, cookie, ip){
-		console.log("isIpRestricted: " + this.isIpRestricted);
-		console.log("object:" + this);
+	this.incrementChoice = function(choiceIndex, cookieId, ip){
+		var isAllowedToVote = true;
+		var addedCookieId;
 		if (!(this.isCookieRestricted || this.isIpRestricted)) {
 			console.log("There are no restrictions: ");
-			this.decideHowToIncrement(choiceIndex);
 		}
-		else if (
-			(this.isCookieRestricted && !(this.cookieExists(cookie))) 
-			||(this.isIpRestricted && !(this.ipExists(ip)))
-			){
-			/*TODO implement how to add a cookie if not yet*/
-			console.log("Current restrictions: " + 
-				this.isCookieRestricted + ", " +
-				this.isIpRestricted);
-			console.log("user cookie: " + cookie);
-			console.log("user ip: " + ip);
-			console.log("this user doesn't have restrictions, so adding");
-			this.decideHowToIncrement(choiceIndex);
+		if (this.isCookieRestricted && this.cookieExists(cookieId)){
+			isAllowedToVote = false;	
 		}
-		else {
+		if (this.isIpRestricted && this.ipExists(ip)) {
+			isAllowedToVote = false;
+		}
+
+		this.addVotedIp(ip);
+		var addedCookieId = this.addCookie(cookieId)
+
+		if (isAllowedToVote) {
+			this.decideHowToIncrement(choiceIndex);
+			return addedCookieId;
+
+		} else {
 			console.log("this user meets restrictions and can't vote");
+			return cookieId;
 		}
 	}
 
@@ -65,8 +66,33 @@ module.exports = function Poll(paramObj) {
 		}
 	}
 
+	this.addCookie = function(cookieId) {
+		if (!cookieId) { //is NaN
+			return this.addNewCookie();
+		} else {
+			this.addVotedCookie(cookieId);
+			return cookieId;
+		}
+	}
+
 	this.addVotedCookie = function(cookieId) {
-		this.votedCookies.push(cookieId);
+		if (!(this.cookieExists(cookieId))) { // only unique allowed
+			this.votedCookies.push(cookieId);
+		}
+	}
+
+	this.addNewCookie = function() {
+		var id = this.createCookieId();
+		this.votedCookies.push(id);
+		return id;
+	}
+
+	this.createCookieId = function() {
+		var id = this.getRandomInt(9999);
+		while (this.cookieExists(id)) {
+			id = this.thisgetRandomInt(9999);
+		}
+		return id;
 	}
 
 	this.addVotedIp = function(ip) {
@@ -99,5 +125,9 @@ module.exports = function Poll(paramObj) {
 
 	this.setVotersCanSeeResultsAfter = function(boolArg) {
  		this.votersCanSeeResultsAfter = boolArg;
+	}
+
+	this.getRandomInt = function(max) {
+  		return Math.floor(Math.random() * Math.floor(max));
 	}
 }
