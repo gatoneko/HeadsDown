@@ -1,6 +1,6 @@
 var db = require('../models/linkDB');
 var polls = require('../models/polls');
-var fraudCheck = require('../models/fraudCheckUtil.js')
+// var fraudCheck = require('../models/fraudCheckUtil.js')
 
 var express = require('express');
 var router = express.Router();

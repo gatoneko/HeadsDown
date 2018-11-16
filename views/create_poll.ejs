@@ -25,37 +25,37 @@
 		<button type="button" onclick="expandOptions()">Advanced/ Vote Fraud Features</button>
 	<div id="adv-features" style="visibility: hidden">
 		<div>
-			<label for="vote-limit">Limit number of votes to</label>
-			<input type="number" id="vote-limit" name="vote-limit" placeholder="unlimited">
+			<label for="voteLimit">Limit number of votes to</label>
+			<input type="number" id="voteLimit" name="voteLimit" placeholder="unlimited">
 		</div>
 		<div>
-			<input type="hidden" id=id="limit-by-cookies" name="limit-by-cookies" value="false">
-			<input type="checkbox" id="limit-by-cookies" name="limit-by-cookies">
-			<label for="limit-by-cookies">Restrict voting by cookies</label>
+<!-- 			<input type="hidden" id=id="isCookieRestricted" name="isCookieRestricted" value="false"> -->
+			<input type="checkbox" id="isCookieRestricted" name="isCookieRestricted" value="true">
+			<label for="isCookieRestricted">Restrict voting by cookies</label>
 		</div>
 		<div>
-			<input type="checkbox" id="limit-by-ips" name="limit-by-ips">
-			<label for="limit-by-ips">Restrict voting by IP adress</label>
+			<input type="checkbox" id="isIpRestricted" name="isIpRestricted" value="true">
+			<label for="isIpRestricted">Restrict voting by IP adress</label>
 		</div>
 		<div>
-			<input type="checkbox" id="see-results-before" name="see-results-before">
-			<label for="see-results-before">Voters can see the results before they vote</label>
+			<input type="checkbox" id="votersCanSeeResultsBefore" name="votersCanSeeResultsBefore" value="true">
+			<label for="votersCanSeeResultsBefore">Voters can see the results before they vote</label>
 		</div>
 		<div>
-			<input type="checkbox" id="see-results-after" name="see-results-after">
-			<label for="see-results-after">Voters can see the results after they vote</label>
+			<input type="checkbox" id="votersCanSeeResultsAfter" name="votersCanSeeResultsAfter" value="true">
+			<label for="votersCanSeeResultsAfter">Voters can see the results after they vote</label>
 		</div>
 		<div>
-			<input type="checkbox" id="vote-multiple" name="vote-multiple">
-			<label for="vote-multiple">Voters can vote for multiple choices</label>
+			<input type="checkbox" id="canSelectMultipleChoicesle" name="canSelectMultipleChoicesle" value="true">
+			<label for="canSelectMultipleChoicesle">Voters can vote for multiple choices</label>
 		</div>
 		<div>
-			<label for="poll-closes">Voting closes on:</label>
-			<input type="date" id="poll-closes" name="poll-closes"　min="2017-04-01" max="2020-01-01">
+			<label for="voteEndingDate">Voting closes on:</label>
+			<input type="date" id="voteEndingDate" name="voteEndingDate"　min="2017-04-01" max="2020-01-01">
 		</div>
 		<div>
-			<label for="poll-expires">This poll will exist until:</label>
-			<input type="datetime-local" id="poll-expires" name="poll-expires" max=""2019-01-01T22:22:55"">
+			<label for="pollExpirationDate">This poll will exist until:</label>
+			<input type="datetime-local" id="pollExpirationDate" name="pollExpirationDate" max=""2019-01-01T22:22:55"">
 		</div>
 	</div>
 </form>
