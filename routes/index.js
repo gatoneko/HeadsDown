@@ -22,23 +22,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/create_poll', function(req, res, next) {
-	// res.send('todo');
 	 res.render('create_poll', { link: 'Heads Down', title: 'Heads Down' }); 
 });
 
 router.post('/create_poll', function(req, res, next) {
-	// console.log("req body is: ");
-	// var title = req.body.title;
-	// var choices = req.body.choices;
-	// var link = db.activateLink();
-	// polls.addPoll(link, title, choices);
 	var linkpair = db.activateLinkPair();
 	req.body.link = linkpair[0];
 	req.body.adminLink = linkpair[1];
 	console.log(req.body);
 	polls.addPoll(req.body);
-	// polls.addPoll(linkpair[0], linkpair[1], title, choices);
-	// console.log('link: ' + link);
 	/* TODO push that to a database */
 	res.redirect('/' + linkpair[1]);
 });
@@ -46,17 +38,6 @@ router.post('/create_poll', function(req, res, next) {
 router.get(/\w+/, function(req, res, next) {
 	console.log('path: ' + req.path);
 	var linkKeyword = req.path.slice(1);
-	/*TODO check if poll page exists */
-	if (db.isActive(linkKeyword) !== undefined) {
-		// console.log("it's there: " + linkKeyword);
-		// res.send("it is there.");
-		// return;
-	}
-	if (db.isActive(linkKeyword) === undefined) {
-		// console.log("it's not there: " + linkKeyword);
-		// res.send("it's not there.");
-		// return;
-	}
 	var poll = polls.getPoll(linkKeyword);
 	//bang is undefined or null falsy
 	if (!poll) { //will this go to the 404?? 
@@ -69,11 +50,10 @@ router.get(/\w+/, function(req, res, next) {
 	} else {
 		res.render('poll_page.ejs', poll);		
 	}
-	/*TODO render poll page */
+
 });
 
 router.post('/:pollId(\\w+)', function(req, res, next) {
-
 	var poll = polls.getPoll(req.params.pollId);
 	poll.checkVoteAndExpirationDates(Date.now());
 	var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
