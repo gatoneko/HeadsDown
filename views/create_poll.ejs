@@ -1,62 +1,85 @@
 <% include _header %>
 <script type="text/javascript" src="./javascripts/create_poll.js"></script>
-<h1>Create Poll</h1>
-<form id="choiceForm" action="/create_poll" method="post" autocomplete="off">
-	<div>
-		<label for="title">Title</label>
-		<input type="text" name="title">
-	</div>
-	<div id="choicesContainer">
-		<div>
-			<label for="choiceTitles">Choice: </label>
-			<input type="text" name="choiceTitles">
-		</div>
-			<label for="choiceTitles">Choice: </label>
-			<input type="text" name="choiceTitles">
-		</div>
-	</div>	
-	<div id="plusButtonDiv">
-		<button type="button" onclick="addChoice()">+</button>
-	</div>
 
-	<div>
-		<button type="submit">Create Poll</button>
+<div class="main-content pure-g">
+	<div class="border pure-u-1-5"></div>
+	
+	<div id="main-window" class="pure-u-3-5">
+		<div id="intro-title" class="content-box"><h1>Create Straw Polls Instantly with HeadsDown</h1></div>
+		<div id="creation-form" class="content-box">
+			<h1>Create Poll</h1>
+			<form class="pure-form pure-form-stacked" id="choiceForm" action="/create_poll" method="post" autocomplete="off">
+				<div>
+					<label for="title">Title: </label>
+					<input class="pure-input-1" type="text" name="title" placeholder="Type your poll question here!">
+				</div>
+				<hr>
+				<div class="pure-g">
+					<div id="choicesContainer" class="pure-u-4-5">
+						<label>Choices:</label>
+						<fieldset id="choicesGroup" class="pure-group">	
+							<div>
+								<!-- <label for="choiceTitles">Choice: </label> -->
+								<input class="pure-input-1" type="text" name="choiceTitles" placeholder="Choice 1">
+							</div>
+							<div>
+								<!-- <label for="choiceTitles">Choice: </label> -->
+								<input class="pure-input-1" type="text" name="choiceTitles" placeholder="Choice 2">
+							</div>
+						</fieldset>
+					</div>		
+					<div id="plusButtonDiv" class="pure-u-1-5">
+						<button class="pure-button plusminus" type="button" onclick="addChoice()">+</button>
+						<button class="plusminus pure-button" type="button" onclick="removeChoice()">-</button>
+					</div>
+				</div>
+				<div class="pure-g">
+					<div class="pure-u-4-5">
+						<button class="pure-button" type="button" onclick="expandOptions()">Advanced/ Vote Fraud Features</button>
+					</div>
+					<div class="pure-u-1-5">
+						<button class="pure-button pure-button-primary" type="submit">Create Poll</button>
+					</div>
+
+				</div>
+
+				<div id="adv-features" style="visibility: hidden">
+					<div>
+						<label for="voteLimit">Limit number of votes to</label>
+						<input type="number" id="voteLimit" name="voteLimit" placeholder="unlimited">
+					</div>
+					<div>
+						<input type="checkbox" id="isCookieRestricted" name="isCookieRestricted" value="true">
+						<label class="pure-checkbox" for="isCookieRestricted">Restrict voting by cookies</label>
+					</div>
+					<div>
+						<input type="checkbox" id="isIpRestricted" name="isIpRestricted" value="true">
+						<label class="pure-checkbox" for="isIpRestricted">Restrict voting by IP adress</label>
+					</div>
+					<div>
+						<input type="checkbox" id="votersCanSeeResultsBefore" name="votersCanSeeResultsBefore" value="true">
+						<label class="pure-checkbox" for="votersCanSeeResultsBefore">Voters can see the results before they vote</label>
+					</div>
+					<div>
+						<input type="checkbox" id="votersCanSeeResultsAfter" name="votersCanSeeResultsAfter" value="true">
+						<label class="pure-checkbox" for="votersCanSeeResultsAfter">Voters can see the results after they vote</label>
+					</div>
+					<div>
+						<input type="checkbox" id="canSelectMultipleChoicesle" name="canSelectMultipleChoicesle" value="true">
+						<label class="pure-checkbox" for="canSelectMultipleChoicesle">Voters can vote for multiple choices</label>
+					</div>
+					<div>
+						<label for="voteEndingDate">Voting closes on:</label>
+						<input type="date" id="voteEndingDate" name="voteEndingDate" max="2020-01-01" value="2019-01-01">
+					</div>
+					<div>
+						<label for="pollExpirationDate">This poll will exist until:</label>
+						<input type="datetime-local" id="pollExpirationDate" name="pollExpirationDate" max="2019-01-01T22:22:55" value="2019-01-01T22:22:55">
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
-		<button type="button" onclick="expandOptions()">Advanced/ Vote Fraud Features</button>
-	<div id="adv-features" style="visibility: hidden">
-		<div>
-			<label for="voteLimit">Limit number of votes to</label>
-			<input type="number" id="voteLimit" name="voteLimit" placeholder="unlimited">
-		</div>
-		<div>
-<!-- 			<input type="hidden" id=id="isCookieRestricted" name="isCookieRestricted" value="false"> -->
-			<input type="checkbox" id="isCookieRestricted" name="isCookieRestricted" value="true">
-			<label for="isCookieRestricted">Restrict voting by cookies</label>
-		</div>
-		<div>
-			<input type="checkbox" id="isIpRestricted" name="isIpRestricted" value="true">
-			<label for="isIpRestricted">Restrict voting by IP adress</label>
-		</div>
-		<div>
-			<input type="checkbox" id="votersCanSeeResultsBefore" name="votersCanSeeResultsBefore" value="true">
-			<label for="votersCanSeeResultsBefore">Voters can see the results before they vote</label>
-		</div>
-		<div>
-			<input type="checkbox" id="votersCanSeeResultsAfter" name="votersCanSeeResultsAfter" value="true">
-			<label for="votersCanSeeResultsAfter">Voters can see the results after they vote</label>
-		</div>
-		<div>
-			<input type="checkbox" id="canSelectMultipleChoicesle" name="canSelectMultipleChoicesle" value="true">
-			<label for="canSelectMultipleChoicesle">Voters can vote for multiple choices</label>
-		</div>
-		<div>
-			<label for="voteEndingDate">Voting closes on:</label>
-			<input type="date" id="voteEndingDate" name="voteEndingDate" max="2020-01-01" value="2000-01-01">
-		</div>
-		<div>
-			<label for="pollExpirationDate">This poll will exist until:</label>
-			<input type="datetime-local" id="pollExpirationDate" name="pollExpirationDate" max="2019-01-01T22:22:55" value="2000-01-01T22:22:55">
-		</div>
-	</div>
-</form>
+</div>
+<div class="border pure-u-1-5"></div>
 <% include _footer %>

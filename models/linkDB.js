@@ -1,12 +1,5 @@
 var word_list = require('./dictionary_list');
 
-// var db = new LinkDB(word_list);
-// for (var i = 0; i < 100; i++) {
-// 	db.activateLink();
-// }
-// console.log("active: " + db.getActiveLinks());
-
-
 function LinkDB(w_l){
 	this.activeLinks = new Array();
 	this.inactiveLinks = w_l

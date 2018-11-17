@@ -17,7 +17,8 @@ router.get('/favicon.ico', function(req, res) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { link: 'Heads Down', title: 'Heads Down' });
+  // res.render('index', { link: 'Heads Down', title: 'Heads Down' });
+  res.redirect('/create_poll');
 });
 
 router.get('/create_poll', function(req, res, next) {

@@ -1,19 +1,27 @@
 /* Creates a new choice form and inserts it into the poll creations */
+
+var choiceIndex = 2;
+
 function addChoice() {
+	choiceIndex += 1;
+	var placeholderText = "Choice " + choiceIndex;
+
 	var newInput = document.createElement("input");
+		newInput.setAttribute("class", "pure-input-1");
 		newInput.setAttribute("type", "text");
 		newInput.setAttribute("name", "choiceTitles");
+		newInput.setAttribute("placeholder", placeholderText);
 		
-	var newLabel = document.createElement("label");
-		newLabel.setAttribute("for","choiceTitles");
-		var text = document.createTextNode("Choice: ");
-		newLabel.appendChild(text);
+	// var newLabel = document.createElement("label");
+	// 	newLabel.setAttribute("for","choiceTitles");
+	// 	var text = document.createTextNode("Choice: ");
+	// 	newLabel.appendChild(text);
 
 	var newDiv = document.createElement("div");
-	newDiv.appendChild(newLabel);
+	// newDiv.appendChild(newLabel);
 	newDiv.appendChild(newInput);
 
-	var choicesContainer = document.getElementById("choicesContainer");
+	var choicesContainer = document.getElementById("choicesGroup");
 	choicesContainer.appendChild(newDiv);
 }
 

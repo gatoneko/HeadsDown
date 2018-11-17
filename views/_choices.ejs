@@ -1,0 +1,14 @@
+<h2>Choose one response:</h2>
+
+	<form action="/<%= link %>"" method="post">
+
+	<% for (var i = 0; i < choiceTitles.length; i++) { %>
+
+				<input id="choiceIndex<%=i%>"" name="choiceIndex" value=<%= i %> onclick="disableAllButtons()" type="radio"></button>
+				<label for=choiceIndex<%=i%>> <%= choiceTitles[i]%> </label>
+				<br>
+
+	<% } %>
+	<button class="pure-button pure-button-primary" type="submit">Submit</button>
+	</form> 
+

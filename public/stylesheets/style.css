@@ -1,8 +1,57 @@
-body {
-  padding: 50px;
+.main-content {
+  /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /*background: #c1bfb5;*/
+  /*background: linear-gradient(180deg, #d0dae2, #8C9CAA);*/
+    background: linear-gradient(215deg, #e74c3c, #000000);
 }
 
 a {
   color: #00B7FF;
+}
+
+.plusminus {
+	position: relative;
+	top: 28px;
+	left: 5px;
+	font-size:;
+}
+
+.content-box {
+	color: #2E2C2F;
+	border: 2px solid black;
+	margin: 10px;
+	padding: 10px;
+	background: #f2f5f7;
+
+}
+
+.top-bar {
+	padding: 10px;
+	background: black;
+	height: 20px;
+	color: white;
+}
+
+.bottom-bar {
+	padding: 10px;
+	background: black;
+	height: 20px;
+	color: white;
+}
+
+#results {
+	text-align: center;
+}
+
+.results-table {
+	font-size: 2em;
+	/*border: 2px solid black;*/
+	/*margin: 10px;*/
+
+}
+
+#myChart {
+	border: 2px solid black;
+	/*margin: 10px;*/
 }

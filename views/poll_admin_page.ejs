@@ -1,8 +1,19 @@
 <% include _header %>
-
-	<h1>Your Poll's link: <b><a href=<%= link %>><%= link %></a></b></h1>
-	<h1>Your Admin page link: <b><a href=<%= adminLink %>><%= adminLink%></a></b></h1>
-	<h2>Don't forget your admin link to come back to this page.</h2>
-
-<% include _results %>
+	<div class="main-content">
+		<div class="border pure-u-1-5"></div>
+		<div class="pure-u-3-5">
+			<div class="content-box">
+				<h1>Your Poll's link: <b><a href=<%= link %>><%= link %></a></b></h1>
+				<h1>Your Admin page link: <b><a href=<%= adminLink %>><%= adminLink%></a></b></h1>
+				<h3>Don't forget your admin link to come back to this page.</h3>
+			</div>
+			<div class="content-box">
+				<% include _results %>
+			</div>
+			<div class="content-box">
+				<% include _poll_expires %>
+			</div>
+		</div>
+		<div class="border pure-u-1-5"></div>
+	</div>
 <% include _footer %>
