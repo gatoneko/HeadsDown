@@ -25,6 +25,11 @@ router.get('/create_poll', function(req, res, next) {
 	 res.render('create_poll', { link: 'Heads Down', title: 'Heads Down' }); 
 });
 
+router.get('/:pollId/results', function(req, res, next) {
+	var poll = polls.getPoll(req.params.pollId);
+	res.render('results', poll);
+})
+
 router.post('/create_poll', function(req, res, next) {
 	var linkpair = db.activateLinkPair();
 	req.body.link = linkpair[0];
@@ -58,8 +63,8 @@ router.post('/:pollId(\\w+)', function(req, res, next) {
 	poll.checkVoteAndExpirationDates(Date.now());
 	var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
 	res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
-	res.redirect('/' + req.params.pollId);
-
+	// res.redirect('/' + req.params.pollId);
+	res.redirect('/' + req.params.pollId + '/results');
 });
 
 

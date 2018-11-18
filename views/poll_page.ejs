@@ -1,6 +1,6 @@
 <% include _header %>
 <script type="text/javascript" src="./javascripts/poll_page.js"></script>
-<div class="main-content">
+<div id="main" class="main-content">
 	<div class="border pure-u-1-5"></div>
 	<div id="main-window" class="pure-u-3-5">
 
@@ -16,14 +16,16 @@
 		<div class="content-box">
 			<% include _choices %>
 		</div>
+
 		<% } else {%>
 		<div class="content-box">
 			<% include _poll_closed %>
 		</div>
 		<% }%>
-		<div class="content-box">
-			<% include _results %>
-		</div>
+
+<!-- 		<div id="results" class="content-box">
+			<%# include _results %>
+		</div> -->
 	</div>
 	<div class="border pure-u-1-5"></div>
 

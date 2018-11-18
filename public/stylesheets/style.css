@@ -1,9 +1,15 @@
+html {
+	min-height: 100%;
+}
+
 .main-content {
   /*padding: 50px;*/
+  position:relative;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  min-height: 100%;
   /*background: #c1bfb5;*/
   /*background: linear-gradient(180deg, #d0dae2, #8C9CAA);*/
-    background: linear-gradient(215deg, #e74c3c, #000000);
+  background: linear-gradient(215deg, #e74c3c, #000000);
 }
 
 a {
