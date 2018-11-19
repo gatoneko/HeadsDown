@@ -3,7 +3,7 @@ var Poll = require('../models/m_poll.js');
 
 function Polls(){
 
-	this.addPoll = function(paramObj) {
+	this.addPoll = function(paramObj, callback) {
 		var newPoll = new Poll({
 			link: paramObj.link,
 			adminLink: paramObj.adminLink,
@@ -30,17 +30,37 @@ function Polls(){
 			pollIsExpired: false,
 		});
 
-		newPoll.save(function(err, newPoll){
-			console.log("newpoll: " + newPoll);
+		newPoll.save(function(err, newPoll) {
+			console.log("newPoll: " + newPoll);
+			callback(newPoll);
+			return newPoll;
 		});
 	}
 
-	this.getPoll = function(queryObj) {
-		console.log("what");
-		Poll.findOne(queryObj).exec(function(err, result) {
-			console.log("result: "+ result);
-			console.log("vote limit: " + result.voteLimit);
-			return result;
+	this.getPoll = function(l, callback) {
+		console.log("gettingPoll");
+		// var query = {};
+		// query.link = l;
+		// console.log("query.link: " + query.link);
+		Poll.findOne({link: l}).exec(function(err, result) {
+			console.log("result: " + result);
+			if (!result) {
+				Poll.findOne({adminLink: l}).exec(function(err, result) {
+					console.log("admin result: " + result);
+					// return result;
+					callback(result);
+				});
+			};
+			// console.log("vote limit: " + result.voteLimit);
+			/* TODO make it check if its expired */
+			/* eg: result.checkVoteAndExpirationDates(Date.now());
+							if (targetPoll.isExpired()) {
+								this.removePoll(index);
+								return null;
+							} else {
+								return targetPoll;
+							} */ 
+			// return result;
 		});
 	}
 }

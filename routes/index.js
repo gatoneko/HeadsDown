@@ -1,5 +1,6 @@
 var db = require('../models/linkDB');
-var polls = require('../models/polls');
+// var polls = require('../models/polls');
+var polls = require('../models/m_polls');
 // var fraudCheck = require('../models/fraudCheckUtil.js')
 
 var express = require('express');
@@ -35,26 +36,30 @@ router.post('/create_poll', function(req, res, next) {
 	req.body.link = linkpair[0];
 	req.body.adminLink = linkpair[1];
 	console.log(req.body);
-	polls.addPoll(req.body);
+	polls.addPoll(req.body, function() {
+		res.redirect('/' + linkpair[1]);
+	});
 	/* TODO push that to a database */
-	res.redirect('/' + linkpair[1]);
 });
 
 router.get(/\w+/, function(req, res, next) {
 	console.log('path: ' + req.path);
 	var linkKeyword = req.path.slice(1);
-	var poll = polls.getPoll(linkKeyword);
-	//bang is undefined or null falsy
-	if (!poll) { //will this go to the 404?? 
-		next();
-		return;
-	}
-	poll.checkVoteAndExpirationDates(Date.now());
-	if (poll.isAdminLink(linkKeyword)) {
-		res.render('poll_admin_page.ejs', poll);
-	} else {
-		res.render('poll_page.ejs', poll);		
-	}
+	// var poll = polls.getPoll(linkKeyword);
+	polls.getPoll(linkKeyword, function(poll) {
+		//bang is undefined or null falsy
+		if (!poll) { //will this go to the 404?? 
+			next();
+			return;
+		}
+		// poll.checkVoteAndExpirationDates(Date.now());
+		if (poll.isAdminLink(linkKeyword)) {
+			res.render('poll_admin_page.ejs', poll);
+		} else {
+			res.render('poll_page.ejs', poll);		
+		}
+	});
+
 
 });
 
