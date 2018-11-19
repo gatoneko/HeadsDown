@@ -4,6 +4,7 @@ var Polls = require('../models/m_polls.js');
 var mongoDbURI='mongodb://datrukup:pokemon1@ds211694.mlab.com:11694/polls'
 mongoose.connect(mongoDbURI);
 
+
 var pollObj = {
 	link: 'String',
 	adminLink: 'String',
@@ -29,7 +30,9 @@ var pollObj = {
 	pollIsOpen: true,
 	pollIsExpired: false,
 }
+/* Test creation of poll */
+// var poll = Polls.addPoll(pollObj);
 
-var poll = Polls.addPoll(pollObj);
-
+/* Test querying of poll */
+var myPoll = Polls.getPoll({link: 'tee'});
 

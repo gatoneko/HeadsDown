@@ -30,8 +30,19 @@ function Polls(){
 			pollIsExpired: false,
 		});
 
-		newPoll.save();
-	};
+		newPoll.save(function(err, newPoll){
+			console.log("newpoll: " + newPoll);
+		});
+	}
+
+	this.getPoll = function(queryObj) {
+		console.log("what");
+		Poll.findOne(queryObj).exec(function(err, result) {
+			console.log("result: "+ result);
+			console.log("vote limit: " + result.voteLimit);
+			return result;
+		});
+	}
 }
 
 module.exports = new Polls();
