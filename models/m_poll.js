@@ -124,6 +124,25 @@ pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
 }
 
 
+pollSchema.methods.endPoll = function() {
+	this.pollIsOpen = false;
+}
+
+pollSchema.methods.expirePoll = function() {
+	this.pollIsExpired = true;
+}
+
+pollSchema.methods.checkVoteAndExpirationDates = function(timeOfQuery) {
+	if (timeOfQuery > this.voteEndingDate) {
+		this.endPoll();
+	}
+	if (timeOfQuery > this.pollExpirationDate) {
+		this.expirePoll();
+	}
+}
+
+
+
 
 pollSchema.methods.cookieExists = function(cookieId) {
 	return this.votedCookies.includes(cookieId);
@@ -174,22 +193,6 @@ pollSchema.methods.getLink = function() {
 	return this.link;
 }
 
-pollSchema.methods.endPoll = function() {
-	this.pollIsOpen = false;
-}
-
-pollSchema.methods.expirePoll = function() {
-	this.pollIsExpired = true;
-}
-
-pollSchema.methods.checkVoteAndExpirationDates = function(timeOfQuery) {
-	if (timeOfQuery > this.voteEndingDate) {
-		this.endPoll();
-	}
-	if (timeOfQuery > this.pollExpirationDate) {
-		this.expirePoll();
-	}
-}
 
 pollSchema.methods.isExpired = function() {
 	return this.pollIsExpired;
