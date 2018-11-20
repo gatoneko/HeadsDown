@@ -7,7 +7,7 @@ var pollSchema = new Schema({
 
 	title: String,
 	choiceTitles: [String],
-	choiceVoteCount: [Number],
+	choiceVoteCount: { type : Array , "default" : [] },
 	
 	votedCookies: [Number],
 	votedIps: [String], /* TODO I don't know what type the ips are saved as */
@@ -47,30 +47,47 @@ pollSchema.methods.incrementOneChoice = function(choiceIndex) {
 	this.choiceVoteCount[choiceIndex] += 1;
 }
 
-pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
-	var isAllowedToVote = true;
-	var addedCookieId;
-	if (!(this.isCookieRestricted || this.isIpRestricted)) {
-		console.log("There are no restrictions: ");
-	}
-	if (this.isCookieRestricted && this.cookieExists(cookieId)){
-		isAllowedToVote = false;	
-	}
-	if (this.isIpRestricted && this.ipExists(ip)) {
-		isAllowedToVote = false;
-	}
+/* for now ignoring all validation */
+pollSchema.methods.incrementChoice = function(choiceIndex){
+	var promise = new Promise((resolve, reject) => {
+		var voteToInc = this.choiceVoteCount[choiceIndex] + 1;
+		this.choiceVoteCount.set(choiceIndex, voteToInc);
+		this.save();
+		resolve();
+	})
 
-	this.addVotedIp(ip);
-	var addedCookieId = this.addCookie(cookieId)
+// 	var promise = new Promise((resolve, reject) => {
+// 		var numOfVotes = this.choiceVoteCount[choiceIndex];
+// 		console.log(numOfVotes);
+// 		var numOfVotes = numOfVotes + 1;
+// 		console.log(numOfVotes);
+// 		this.set({choiceVoteCount[choiceIndex]: numOfVotes});
+// });
+// 	return promise;
 
-	if (isAllowedToVote) {
-		this.decideHowToIncrement(choiceIndex);
-		return addedCookieId;
+	// var isAllowedToVote = true;
+	// var addedCookieId;
+	// if (!(this.isCookieRestricted || this.isIpRestricted)) {
+	// 	console.log("There are no restrictions: ");
+	// }
+	// if (this.isCookieRestricted && this.cookieExists(cookieId)){
+	// 	isAllowedToVote = false;	
+	// }
+	// if (this.isIpRestricted && this.ipExists(ip)) {
+	// 	isAllowedToVote = false;
+	// }
 
-	} else {
-		console.log("this user meets restrictions and can't vote");
-		return cookieId;
-	}
+	// // this.addVotedIp(ip);
+	// // var addedCookieId = this.addCookie(cookieId)
+
+	// if (isAllowedToVote) {
+	// 	this.decideHowToIncrement(choiceIndex);
+	// 	return addedCookieId;
+
+	// } else {
+	// 	console.log("this user meets restrictions and can't vote");
+	// 	return cookieId;
+	// }
 }
 
 pollSchema.methods.decideHowToIncrement = function(choiceIndex) {

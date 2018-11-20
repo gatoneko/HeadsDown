@@ -13,7 +13,7 @@ function Polls(){
 			choiceVoteCount: new Array(paramObj.choiceTitles.length).fill(0),
 
 			votedCookies: new Array(),
-			votedIps: new Array(),
+			votedIps: [],
 
 			voteLimit: paramObj.voteLimit || 0, //undefined resolves to 0 which is unlimited
 			isIpRestricted: paramObj.isIpRestricted || false,
@@ -45,20 +45,9 @@ function Polls(){
 				resolve(result);
 			});
 		});
-
+		/* index.js is supposed to check if expire or not. currently commented */
 		return promise;
 	}
-
-
-			/* TODO make it check if its expired */
-			/* eg: result.checkVoteAndExpirationDates(Date.now());
-							if (targetPoll.isExpired()) {
-								this.removePoll(index);
-								return null;
-							} else {
-								return targetPoll;
-							} */ 
-
 }
 
 module.exports = new Polls();

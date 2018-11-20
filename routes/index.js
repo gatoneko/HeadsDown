@@ -46,7 +46,6 @@ router.post('/create_poll', function(req, res, next) {
 router.get(/\w+/, function(req, res, next) {
 	console.log('path: ' + req.path);
 	var linkKeyword = req.path.slice(1);
-	// var poll = polls.getPoll(linkKeyword);
 	polls.getPoll({link: linkKeyword})
 		.then((poll) => {
 			if (poll) {
@@ -65,13 +64,24 @@ router.get(/\w+/, function(req, res, next) {
 		})
 });
 
-router.post('/:pollId(\\w+)', function(req, res, next) {
-	var poll = polls.getPoll(req.params.pollId);
-	poll.checkVoteAndExpirationDates(Date.now());
-	var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
-	res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
-	// res.redirect('/' + req.params.pollId);
-	res.redirect('/' + req.params.pollId + '/results');
+router.post('/:pollLink(\\w+)', function(req, res, next) {
+	// var poll = polls.getPoll(req.params.pollLink);
+	// // poll.checkVoteAndExpirationDates(Date.now());
+	// var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
+	// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
+	// // res.redirect('/' + req.params.pollLink);
+	// res.redirect('/' + req.params.pollLink + '/results');
+
+	polls.getPoll({link: req.params.pollLink})
+		.then((poll) => {
+			poll.incrementChoice(req.body.choiceIndex)
+		})
+		.then(() => {
+				res.send("finished");
+				res.redirect('/' + req.params.pollLink + '/results');
+			})
+			// var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
+			// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
 });
 
 
