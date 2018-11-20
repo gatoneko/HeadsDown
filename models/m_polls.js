@@ -41,7 +41,9 @@ function Polls(){
 
 		promise = new Promise((resolve, reject) => {
 			Poll.findOne(queryObj).exec((err, result) => {
-				result.checkVoteAndExpirationDates(Date.now());
+				if (result) {
+					result.checkVoteAndExpirationDates(Date.now());
+				}
 				resolve(result);
 			});
 		});
