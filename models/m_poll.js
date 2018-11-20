@@ -125,19 +125,30 @@ pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
 
 
 pollSchema.methods.endPoll = function() {
-	this.pollIsOpen = false;
+	var promise = new Promise((resolve, reject) => {
+		this.pollIsOpen = false;
+		this.save();
+		resolve();
+	});
+	return promise;	
 }
 
 pollSchema.methods.expirePoll = function() {
-	this.pollIsExpired = true;
+	var promise = new Promise((resolve, reject) => {
+		this.pollIsExpired = true;
+		this.save();
+		resolve();
+	});
+	return promise;	
 }
 
 pollSchema.methods.checkVoteAndExpirationDates = function(timeOfQuery) {
 	if (timeOfQuery > this.voteEndingDate) {
-		this.endPoll();
-	}
-	if (timeOfQuery > this.pollExpirationDate) {
-		this.expirePoll();
+		this.endPoll().then(() => {
+			if (timeOfQuery > this.pollExpirationDate) {
+				this.expirePoll();
+			}
+		});
 	}
 }
 

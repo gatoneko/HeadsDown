@@ -54,14 +54,14 @@ router.get(/\w+/, function(req, res, next) {
 	polls.getPoll({link: linkKeyword})
 		.then((poll) => {
 			if (poll) {
-				// poll.checkVoteAndExpirationDates(Date.now());
+				poll.checkVoteAndExpirationDates(Date.now());
 				res.render('poll_page.ejs', poll);
 			} 
 			else {
 				polls.getPoll({adminLink: linkKeyword})
 					.then((poll) => {
 						if (poll) {
-							// poll.checkVoteAndExpirationDates(Date.now());
+							poll.checkVoteAndExpirationDates(Date.now());
 							res.render('poll_admin_page.ejs', poll);
 						}
 					})
@@ -89,6 +89,7 @@ router.post('/:pollLink(\\w+)', function(req, res, next) {
 
 	polls.getPoll({link: req.params.pollLink})
 		.then((poll) => {
+			poll.checkVoteAndExpirationDates(Date.now());
 			if (!req.cookies.id) {
 				userCookieId = cookieGenerator.createCookie(poll)
 			} 
