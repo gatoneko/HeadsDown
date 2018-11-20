@@ -9,7 +9,7 @@ var pollSchema = new Schema({
 	choiceTitles: [String],
 	choiceVoteCount: { type : Array , "default" : [] },
 	
-	votedCookies: [Number],
+	votedCookies: [String],
 	votedIps: [String], /* TODO I don't know what type the ips are saved as */
 
 	voteLimit: Number,
@@ -37,6 +37,15 @@ var pollSchema = new Schema({
 // 	return this.link;
 // };
 
+/* for now not implementing multi-choice
+pollSchema.methods.decideHowToIncrement = function(choiceIndex) {
+	if (typeof choiceIndex === typeof []) {
+		this.incrementManyChoices(choiceIndex);
+	} else {
+		this.incrementOneChoice(choiceIndex);
+	}
+}
+
 pollSchema.methods.incrementManyChoices = function(choiceIndexArray) {
 	for (var i = 0; i < choiceIndexArray; i++) {
 		this.incrementChoice(choiceIndexArray[i]);
@@ -46,15 +55,39 @@ pollSchema.methods.incrementManyChoices = function(choiceIndexArray) {
 pollSchema.methods.incrementOneChoice = function(choiceIndex) {
 	this.choiceVoteCount[choiceIndex] += 1;
 }
+*/
+
+pollSchema.methods.isAllowedToVote = function(cookieId, ip) {
+	var isAllowedToVote = true;
+	if (!(this.isCookieRestricted || this.isIpRestricted)) {
+		console.log("There are no restrictions: ");
+	}
+	if (this.isCookieRestricted && this.cookieExists(cookieId)){
+		isAllowedToVote = false;	
+	}
+	if (this.isIpRestricted && this.ipExists(ip)) {
+		isAllowedToVote = false;
+	}
+	return isAllowedToVote;
+}
 
 /* for now ignoring all validation */
-pollSchema.methods.incrementChoice = function(choiceIndex){
+pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
 	var promise = new Promise((resolve, reject) => {
-		var voteToInc = this.choiceVoteCount[choiceIndex] + 1;
-		this.choiceVoteCount.set(choiceIndex, voteToInc);
-		this.save();
-		resolve();
-	})
+		if(!(this.isAllowedToVote(cookieId, ip))) {
+			resolve();
+		}
+		else {
+			var voteToInc = this.choiceVoteCount[choiceIndex] + 1;
+			this.choiceVoteCount.set(choiceIndex, voteToInc);
+			/* For now the key is same as value */
+			this.votedCookies.push(cookieId);
+			this.votedIps.push(ip);
+			this.save();
+			resolve();
+		}
+	});
+	return promise;
 
 // 	var promise = new Promise((resolve, reject) => {
 // 		var numOfVotes = this.choiceVoteCount[choiceIndex];
@@ -90,12 +123,10 @@ pollSchema.methods.incrementChoice = function(choiceIndex){
 	// }
 }
 
-pollSchema.methods.decideHowToIncrement = function(choiceIndex) {
-	if (typeof choiceIndex === typeof []) {
-		this.incrementManyChoices(choiceIndex);
-	} else {
-		this.incrementOneChoice(choiceIndex);
-	}
+
+
+pollSchema.methods.cookieExists = function(cookieId) {
+	return this.votedCookies.includes(cookieId);
 }
 
 pollSchema.methods.addCookie = function(cookieId) {
@@ -133,10 +164,6 @@ pollSchema.methods.addVotedIp = function(ip) {
 
 pollSchema.methods.isAdminLink = function(query) {
 	return query === this.adminLink;
-}
-
-pollSchema.methods.cookieExists = function(cookieId) {
-	return this.votedCookies.includes(cookieId);
 }
 
 pollSchema.methods.ipExists = function(ip) {

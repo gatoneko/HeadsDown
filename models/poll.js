@@ -23,6 +23,7 @@ module.exports = function Poll(paramObj) {
 	this.pollIsOpen = true;
 	this.pollIsExpired = false;
 
+/* for now not implementing multiple choices
 	this.incrementManyChoices = function(choiceIndexArray) {
 		for (var i = 0; i < choiceIndexArray; i++) {
 			this.incrementChoice(choiceIndexArray[i]);
@@ -33,6 +34,14 @@ module.exports = function Poll(paramObj) {
 		this.choiceVoteCount[choiceIndex] += 1;
 	}
 
+	this.decideHowToIncrement = function(choiceIndex) {
+		if (typeof choiceIndex === typeof []) {
+			this.incrementManyChoices(choiceIndex);
+		} else {
+			this.incrementOneChoice(choiceIndex);
+		}
+	}
+*/
 	this.incrementChoice = function(choiceIndex, cookieId, ip){
 		var isAllowedToVote = true;
 		var addedCookieId;
@@ -59,13 +68,6 @@ module.exports = function Poll(paramObj) {
 		}
 	}
 
-	this.decideHowToIncrement = function(choiceIndex) {
-		if (typeof choiceIndex === typeof []) {
-			this.incrementManyChoices(choiceIndex);
-		} else {
-			this.incrementOneChoice(choiceIndex);
-		}
-	}
 
 	this.addCookie = function(cookieId) {
 		if (!cookieId) { //is NaN

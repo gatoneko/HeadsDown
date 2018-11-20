@@ -13,7 +13,7 @@ function Polls(){
 			choiceVoteCount: new Array(paramObj.choiceTitles.length).fill(0),
 
 			votedCookies: new Array(),
-			votedIps: [],
+			votedIps: new Array(),
 
 			voteLimit: paramObj.voteLimit || 0, //undefined resolves to 0 which is unlimited
 			isIpRestricted: paramObj.isIpRestricted || false,

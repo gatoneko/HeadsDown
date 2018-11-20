@@ -1,8 +1,7 @@
 var db = require('../models/linkDB');
 // var polls = require('../models/polls');
 var polls = require('../models/m_polls');
-// var fraudCheck = require('../models/fraudCheckUtil.js')
-
+var cookieGenerator = require('../models/cookieGenerator.js');
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
@@ -22,13 +21,19 @@ router.get('/', function(req, res, next) {
   res.redirect('/create_poll');
 });
 
+/* GET poll creation page. */
 router.get('/create_poll', function(req, res, next) {
 	 res.render('create_poll', { link: 'Heads Down', title: 'Heads Down' }); 
 });
 
-router.get('/:pollId/results', function(req, res, next) {
-	var poll = polls.getPoll(req.params.pollId);
-	res.render('results', poll);
+/* GET results page. */
+router.get('/:pollLink/results', function(req, res, next) {
+	polls.getPoll({link: req.params.pollLink})
+		.then((poll) => {
+			console.log(poll);
+			res.render('results', poll);
+		});
+
 })
 
 router.post('/create_poll', function(req, res, next) {
@@ -64,6 +69,7 @@ router.get(/\w+/, function(req, res, next) {
 		})
 });
 
+/* user votes on a choice */
 router.post('/:pollLink(\\w+)', function(req, res, next) {
 	// var poll = polls.getPoll(req.params.pollLink);
 	// // poll.checkVoteAndExpirationDates(Date.now());
@@ -72,12 +78,27 @@ router.post('/:pollLink(\\w+)', function(req, res, next) {
 	// // res.redirect('/' + req.params.pollLink);
 	// res.redirect('/' + req.params.pollLink + '/results');
 
+	// if (!req.cookies.id) {
+	// 	var userCookieId = cookieGenerator.createCookie()
+	// } 
+	// else {
+	// 	userCookieId = req.cookies.id;
+	// }
+
+	var userCookieId;	
+
 	polls.getPoll({link: req.params.pollLink})
 		.then((poll) => {
-			poll.incrementChoice(req.body.choiceIndex)
+			if (!req.cookies.id) {
+				userCookieId = cookieGenerator.createCookie(poll)
+			} 
+			else {
+				userCookieId = req.cookies.id;
+			}		
+			poll.incrementChoice(req.body.choiceIndex, userCookieId, req.ip)
 		})
 		.then(() => {
-				res.send("finished");
+				// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
 				res.redirect('/' + req.params.pollLink + '/results');
 			})
 			// var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
