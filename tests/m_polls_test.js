@@ -38,6 +38,30 @@ mongoose.connect(mongoDbURI);
 // });
 
 
+function checkIfNull(arg) {
+	if (!arg) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 /* Test querying of poll */
-Polls.getPoll("crane");
+
+// var query = "crane";
+var query = "striker";
+
+Polls.getPoll({link: query})
+	.then((result) => {
+		if (result) {
+			console.log('render main');
+		} else {
+			Polls.getPoll({adminLink: query})
+	.then((result) => {
+		if (result) {
+			console.log('render admin');
+		}
+	})
+		}
+	});
 

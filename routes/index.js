@@ -42,25 +42,27 @@ router.post('/create_poll', function(req, res, next) {
 	/* TODO push that to a database */
 });
 
+/* Gets poll or admin page. promise based query */
 router.get(/\w+/, function(req, res, next) {
 	console.log('path: ' + req.path);
 	var linkKeyword = req.path.slice(1);
 	// var poll = polls.getPoll(linkKeyword);
-	polls.getPoll(linkKeyword, function(poll) {
-		//bang is undefined or null falsy
-		if (!poll) { //will this go to the 404?? 
-			next();
-			return;
-		}
-		// poll.checkVoteAndExpirationDates(Date.now());
-		if (poll.isAdminLink(linkKeyword)) {
-			res.render('poll_admin_page.ejs', poll);
-		} else {
-			res.render('poll_page.ejs', poll);		
-		}
-	});
-
-
+	polls.getPoll({link: linkKeyword})
+		.then((poll) => {
+			if (poll) {
+				// poll.checkVoteAndExpirationDates(Date.now());
+				res.render('poll_page.ejs', poll);
+			} 
+			else {
+				polls.getPoll({adminLink: linkKeyword})
+					.then((poll) => {
+						if (poll) {
+							// poll.checkVoteAndExpirationDates(Date.now());
+							res.render('poll_admin_page.ejs', poll);
+						}
+					})
+			}
+		})
 });
 
 router.post('/:pollId(\\w+)', function(req, res, next) {

@@ -37,21 +37,19 @@ function Polls(){
 		});
 	}
 
-	this.getPoll = function(l, callback) {
-		console.log("gettingPoll");
-		// var query = {};
-		// query.link = l;
-		// console.log("query.link: " + query.link);
-		Poll.findOne({link: l}).exec(function(err, result) {
-			console.log("result: " + result);
-			if (!result) {
-				Poll.findOne({adminLink: l}).exec(function(err, result) {
-					console.log("admin result: " + result);
-					// return result;
-					callback(result);
-				});
-			};
-			// console.log("vote limit: " + result.voteLimit);
+	this.getPoll = function(queryObj) {
+
+		promise = new Promise((resolve, reject) => {
+			Poll.findOne(queryObj).exec((err, result) => {
+				console.log("result: " + result);
+				resolve(result);
+			});
+		});
+
+		return promise;
+	}
+
+
 			/* TODO make it check if its expired */
 			/* eg: result.checkVoteAndExpirationDates(Date.now());
 							if (targetPoll.isExpired()) {
@@ -60,9 +58,7 @@ function Polls(){
 							} else {
 								return targetPoll;
 							} */ 
-			// return result;
-		});
-	}
+
 }
 
 module.exports = new Polls();
