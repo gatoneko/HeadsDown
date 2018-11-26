@@ -47,49 +47,30 @@ router.post('/create_poll', function(req, res, next) {
 	/* TODO push that to a database */
 });
 
-/* Gets poll or admin page. promise based query */
-router.get(/\w+/, function(req, res, next) {
-	console.log('path: ' + req.path);
+router.get(/\w+/, async function(req, res, next) {
 	var linkKeyword = req.path.slice(1);
-	polls.getPoll({link: linkKeyword})
-		.then((poll) => {
-			if (poll) {
-				poll.checkVoteAndExpirationDates(new Date());
-				res.render('poll_page.ejs', poll);
-			} 
-			else {
-				polls.getPoll({adminLink: linkKeyword})
-					.then((poll) => {
-						if (poll) {
-							poll.checkVoteAndExpirationDates(new Date());
-							res.render('poll_admin_page.ejs', poll);
-						}
-					})
-			}
-		})
+	var result = await polls.getPoll(linkKeyword);
+	console.log("result: " + result.pollInfo);
+	console.log("link status: " + result.isMainLink);
+	if (!result.pollInfo) {
+		next();
+	}
+	if (result.isMainLink) {
+		res.render('poll_page.ejs', result.pollInfo);
+	} else {
+		res.render('poll_admin_page.ejs', result.pollInfo);
+	}
 });
+
+
 
 /* user votes on a choice */
 router.post('/:pollLink(\\w+)', function(req, res, next) {
-	// var poll = polls.getPoll(req.params.pollLink);
-	// // poll.checkVoteAndExpirationDates(Date.now());
-	// var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
-	// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
-	// // res.redirect('/' + req.params.pollLink);
-	// res.redirect('/' + req.params.pollLink + '/results');
-
-	// if (!req.cookies.id) {
-	// 	var userCookieId = cookieGenerator.createCookie()
-	// } 
-	// else {
-	// 	userCookieId = req.cookies.id;
-	// }
-
 	var userCookieId;	
 
 	polls.getPoll({link: req.params.pollLink})
 		.then((poll) => {
-			poll.checkVoteAndExpirationDates(new Date());
+			// poll.checkVoteAndExpirationDates(new Date());
 			if (!req.cookies.id) {
 				userCookieId = cookieGenerator.createCookie(poll)
 			} 

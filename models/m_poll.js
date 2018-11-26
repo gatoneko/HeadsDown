@@ -124,37 +124,68 @@ pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
 }
 
 
-pollSchema.methods.endPoll = function() {
-	var promise = new Promise((resolve, reject) => {
+// pollSchema.methods.endPoll = function() {
+// 		this.pollIsOpen = false;
+// 		return this.save();
+// }
+
+// /* When this method is called the first time, it will return vote page, next time will hang */
+// pollSchema.methods.expirePoll = function() {
+// 	this.pollIsOpen = false;
+// 	return this.save();
+// 	// return this.remove();
+// }
+
+
+// pollSchema.methods.deletePoll = function() {
+// 	return this.remove();
+// }
+
+
+// pollSchema.methods.checkVoteAndExpirationDates = function(timeOfQuery) {
+// 	if (timeOfQuery > this.voteEndingDate) {
+// 		return this.endPoll()
+// 		.then( () => {
+// 			if (timeOfQuery > this.pollExpirationDate) {
+// 				this.expirePoll(this);
+// 			}
+// 			resolve(null);
+// 		});
+// 	} 
+// 	else {
+// 		return Promise.resolve(this);
+// 	}
+// }
+
+
+/* WORKING WITH ASYNC ETC
+* ------------------------- */
+
+pollSchema.methods.endPoll = async function() {
 		this.pollIsOpen = false;
-		this.save();
-		resolve();
-	});
-	return promise;	
+		await this.save();
 }
 
+/* When this method is called the first time, it will return vote page, next time will hang */
 pollSchema.methods.expirePoll = function() {
-	var promise = new Promise((resolve, reject) => {
-		this.pollIsExpired = true;
-		this.save();
-		resolve();
-	});
-	return promise;	
+	this.pollIsOpen = false;
+	return this.save();
 }
 
-pollSchema.methods.checkVoteAndExpirationDates = function(timeOfQuery) {
+
+pollSchema.methods.checkVoteAndExpirationDates = async function(timeOfQuery) {
 	if (timeOfQuery > this.voteEndingDate) {
-		this.endPoll().then(() => {
-			if (timeOfQuery > this.pollExpirationDate) {
-				this.expirePoll();
-			}
-		});
+		await this.endPoll();
+	} 
+
+	if (timeOfQuery > this.pollExpirationDate) {
+		await this.deletePoll();
+		return null;
 	}
+	return this;
 }
 
-
-
-
+/* -------------------------- */
 pollSchema.methods.cookieExists = function(cookieId) {
 	return this.votedCookies.includes(cookieId);
 }

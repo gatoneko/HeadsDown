@@ -37,19 +37,75 @@ function Polls(){
 		});
 	}
 
-	this.getPoll = function(queryObj) {
+	// this.getPoll = function(queryObj) {
+	// 	promise = new Promise((resolve, reject) => {
+	// 		Poll.findOne(queryObj).exec((err, result) => {
+	// 			if (result) {
+	// 				result.checkVoteAndExpirationDates(Date.now()).then((poll) => {
+	// 					if(poll.pollIsExpired) {
+	// 						return poll.deletePoll();
+	// 					}
+	// 				})
+	// 			}
+	// 			resolve(result);
+	// 		});
+	// 	});
+	// 	/* index.js is supposed to check if expire or not. currently commented */
+	// 	return promise;
+	// }
 
-		promise = new Promise((resolve, reject) => {
-			Poll.findOne(queryObj).exec((err, result) => {
-				if (result) {
-					result.checkVoteAndExpirationDates(Date.now());
-				}
-				resolve(result);
-			});
-		});
-		/* index.js is supposed to check if expire or not. currently commented */
-		return promise;
+	this.getPoll = async function(queryLink) {
+		var adminQuery = {adminLink: queryLink};
+		var pollPageQuery = {link: queryLink};
+
+
+		var pollResult = await Poll.findOne(pollPageQuery).exec();
+		var adminResult = await Poll.findOne(adminQuery).exec();
+		var queryCompositeResult = pollResult || adminResult;
+		var isMainLink = pollResult ? true : false;
+		if (queryCompositeResult) {
+			queryCompositeResult = await queryCompositeResult.checkVoteAndExpirationDates(new Date());
+		}
+		var result = {};
+		result.pollInfo = queryCompositeResult;
+		result.isMainLink = isMainLink;
+		return result;
 	}
 }
 
 module.exports = new Polls();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
