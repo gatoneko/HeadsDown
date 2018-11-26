@@ -37,23 +37,6 @@ function Polls(){
 		});
 	}
 
-	// this.getPoll = function(queryObj) {
-	// 	promise = new Promise((resolve, reject) => {
-	// 		Poll.findOne(queryObj).exec((err, result) => {
-	// 			if (result) {
-	// 				result.checkVoteAndExpirationDates(Date.now()).then((poll) => {
-	// 					if(poll.pollIsExpired) {
-	// 						return poll.deletePoll();
-	// 					}
-	// 				})
-	// 			}
-	// 			resolve(result);
-	// 		});
-	// 	});
-	// 	/* index.js is supposed to check if expire or not. currently commented */
-	// 	return promise;
-	// }
-
 	this.getPoll = async function(queryLink) {
 		var adminQuery = {adminLink: queryLink};
 		var pollPageQuery = {link: queryLink};

@@ -89,40 +89,6 @@ pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
 	});
 	return promise;
 
-// 	var promise = new Promise((resolve, reject) => {
-// 		var numOfVotes = this.choiceVoteCount[choiceIndex];
-// 		console.log(numOfVotes);
-// 		var numOfVotes = numOfVotes + 1;
-// 		console.log(numOfVotes);
-// 		this.set({choiceVoteCount[choiceIndex]: numOfVotes});
-// });
-// 	return promise;
-
-	// var isAllowedToVote = true;
-	// var addedCookieId;
-	// if (!(this.isCookieRestricted || this.isIpRestricted)) {
-	// 	console.log("There are no restrictions: ");
-	// }
-	// if (this.isCookieRestricted && this.cookieExists(cookieId)){
-	// 	isAllowedToVote = false;	
-	// }
-	// if (this.isIpRestricted && this.ipExists(ip)) {
-	// 	isAllowedToVote = false;
-	// }
-
-	// // this.addVotedIp(ip);
-	// // var addedCookieId = this.addCookie(cookieId)
-
-	// if (isAllowedToVote) {
-	// 	this.decideHowToIncrement(choiceIndex);
-	// 	return addedCookieId;
-
-	// } else {
-	// 	console.log("this user meets restrictions and can't vote");
-	// 	return cookieId;
-	// }
-}
-
 /* WORKING WITH ASYNC ETC
 * ------------------------- */
 
