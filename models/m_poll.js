@@ -123,43 +123,28 @@ pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
 	// }
 }
 
-
-// pollSchema.methods.endPoll = function() {
-// 		this.pollIsOpen = false;
-// 		return this.save();
-// }
-
-// /* When this method is called the first time, it will return vote page, next time will hang */
-// pollSchema.methods.expirePoll = function() {
-// 	this.pollIsOpen = false;
-// 	return this.save();
-// 	// return this.remove();
-// }
-
-
-// pollSchema.methods.deletePoll = function() {
-// 	return this.remove();
-// }
-
-
-// pollSchema.methods.checkVoteAndExpirationDates = function(timeOfQuery) {
-// 	if (timeOfQuery > this.voteEndingDate) {
-// 		return this.endPoll()
-// 		.then( () => {
-// 			if (timeOfQuery > this.pollExpirationDate) {
-// 				this.expirePoll(this);
-// 			}
-// 			resolve(null);
-// 		});
-// 	} 
-// 	else {
-// 		return Promise.resolve(this);
-// 	}
-// }
-
-
 /* WORKING WITH ASYNC ETC
 * ------------------------- */
+
+
+pollSchema.methods.incrementChoice = async function(choiceIndex, cookieId, ip){
+	// var promise = new Promise((resolve, reject) => {
+	// 	if(!(this.isAllowedToVote(cookieId, ip))) {
+	// 		resolve();
+	// 	}
+	// 	else {
+			var voteToInc = this.choiceVoteCount[choiceIndex] + 1;
+			this.choiceVoteCount.set(choiceIndex, voteToInc);
+			/* For now the key is same as value */
+			// this.votedCookies.push(cookieId);
+			// this.votedIps.push(ip);
+			await this.save();
+			// resolve();
+	// 	}
+	// });
+	// return promise;
+}
+
 
 pollSchema.methods.endPoll = async function() {
 		this.pollIsOpen = false;

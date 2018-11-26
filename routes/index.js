@@ -27,12 +27,9 @@ router.get('/create_poll', function(req, res, next) {
 });
 
 /* GET results page. */
-router.get('/:pollLink/results', function(req, res, next) {
-	polls.getPoll({link: req.params.pollLink})
-		.then((poll) => {
-			console.log(poll);
-			res.render('results', poll);
-		});
+router.get('/:pollLink/results', async function(req, res, next) {
+	var result = (await polls.getPoll(req.params.pollLink)).pollInfo;
+	res.render('results', result);
 
 })
 
@@ -50,11 +47,7 @@ router.post('/create_poll', function(req, res, next) {
 router.get(/\w+/, async function(req, res, next) {
 	var linkKeyword = req.path.slice(1);
 	var result = await polls.getPoll(linkKeyword);
-	console.log("result: " + result.pollInfo);
-	console.log("link status: " + result.isMainLink);
-	if (!result.pollInfo) {
-		next();
-	}
+	if (!result.pollInfo) {next(); }
 	if (result.isMainLink) {
 		res.render('poll_page.ejs', result.pollInfo);
 	} else {
@@ -65,27 +58,43 @@ router.get(/\w+/, async function(req, res, next) {
 
 
 /* user votes on a choice */
-router.post('/:pollLink(\\w+)', function(req, res, next) {
+router.post('/:pollLink(\\w+)', async function(req, res, next) {
 	var userCookieId;	
 
-	polls.getPoll({link: req.params.pollLink})
-		.then((poll) => {
-			// poll.checkVoteAndExpirationDates(new Date());
-			if (!req.cookies.id) {
-				userCookieId = cookieGenerator.createCookie(poll)
-			} 
-			else {
-				userCookieId = req.cookies.id;
-			}		
-			poll.incrementChoice(req.body.choiceIndex, userCookieId, req.ip)
-		})
-		.then(() => {
+	var currentPoll = (await polls.getPoll(req.params.pollLink)).pollInfo;
+	// var currentPoll = currentPoll.pollInfo;
+	console.log("currentPoll: " + currentPoll);
+	await currentPoll.incrementChoice(req.body.choiceIndex, userCookieId, req.ip);
 				// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
-				res.redirect('/' + req.params.pollLink + '/results');
-			})
+	res.redirect('/' + req.params.pollLink + '/results');
+
 			// var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
 			// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
 });
+
+
+// /* user votes on a choice */
+// router.post('/:pollLink(\\w+)', function(req, res, next) {
+// 	var userCookieId;	
+
+// 	polls.getPoll({link: req.params.pollLink})
+// 		.then((poll) => {
+// 			// poll.checkVoteAndExpirationDates(new Date());
+// 			if (!req.cookies.id) {
+// 				userCookieId = cookieGenerator.createCookie(poll)
+// 			} 
+// 			else {
+// 				userCookieId = req.cookies.id;
+// 			}		
+// 			poll.incrementChoice(req.body.choiceIndex, userCookieId, req.ip)
+// 		})
+// 		.then(() => {
+// 				// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
+// 				res.redirect('/' + req.params.pollLink + '/results');
+// 			})
+// 			// var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
+// 			// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
+// });
 
 
 function getRandomInt(max) {
