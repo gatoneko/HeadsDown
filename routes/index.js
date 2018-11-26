@@ -59,17 +59,31 @@ router.get(/\w+/, async function(req, res, next) {
 
 /* user votes on a choice */
 router.post('/:pollLink(\\w+)', async function(req, res, next) {
-	var userCookieId;	
+
+
+	//todo TEST THIS. This should use lazy evaluation to return left side if exists.
+	console.log(userCookieId);
 
 	var currentPoll = (await polls.getPoll(req.params.pollLink)).pollInfo;
+
+	var userCookieId = req.cookies.id || cookieGenerator.createCookie(currentPoll);
+
+	// var userCookieId;
+	// if (!req.cookies.id) {
+	// 	userCookieId = cookieGenerator.createCookie(currentPoll);
+	// } 
+	// else {
+	// 	userCookieId = req.cookies.id;
+	// }	
 	// var currentPoll = currentPoll.pollInfo;
 	console.log("currentPoll: " + currentPoll);
 	await currentPoll.incrementChoice(req.body.choiceIndex, userCookieId, req.ip);
-				// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
+	//does this prevent expiring? todo look intoit
+	res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
 	res.redirect('/' + req.params.pollLink + '/results');
 
-			// var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
-			// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
+	// var userCookieId = poll.incrementChoice(req.body.choiceIndex, parseInt(req.cookies.id), req.ip);
+	// res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
 });
 
 

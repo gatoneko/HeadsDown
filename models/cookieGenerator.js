@@ -1,7 +1,7 @@
 exports.createCookie = function(poll) {
 	var id = this.getRandomInt(9999);
 	while (poll.cookieExists(id)) {
-		id = this.thisgetRandomInt(9999);
+		id = this.getRandomInt(9999);
 	}
 	return id;
 }

@@ -131,9 +131,9 @@ pollSchema.methods.isAllowedToVote = function(cookieId, ip) {
 	if (!(this.isCookieRestricted || this.isIpRestricted)) {
 		console.log("There are no restrictions: ");
 	}
-	// if (this.isCookieRestricted && this.cookieExists(cookieId)){
-	// 	isAllowedToVote = false;	
-	// }
+	if (this.isCookieRestricted && this.cookieExists(cookieId)){
+		isAllowedToVote = false;	
+	}
 	if (this.isIpRestricted && this.ipExists(ip)) {
 		isAllowedToVote = false;
 	}
@@ -142,21 +142,15 @@ pollSchema.methods.isAllowedToVote = function(cookieId, ip) {
 
 
 pollSchema.methods.incrementChoice = async function(choiceIndex, cookieId, ip){
-	// var promise = new Promise((resolve, reject) => {
 		if (!(this.isAllowedToVote(cookieId, ip))) {
 			return;
 		}
-	// 	else {
 			var voteToInc = this.choiceVoteCount[choiceIndex] + 1;
 			this.choiceVoteCount.set(choiceIndex, voteToInc);
 			/* For now the key is same as value */
-			// this.votedCookies.push(cookieId);
+			this.votedCookies.push(cookieId);
 			this.votedIps.push(ip);
 			await this.save();
-			// resolve();
-	// 	}
-	// });
-	// return promise;
 }
 
 
@@ -186,7 +180,8 @@ pollSchema.methods.checkVoteAndExpirationDates = async function(timeOfQuery) {
 
 /* -------------------------- */
 pollSchema.methods.cookieExists = function(cookieId) {
-	return this.votedCookies.includes(cookieId);
+	//cookies are a string for somereason
+	return this.votedCookies.includes(cookieId.toString());
 }
 
 pollSchema.methods.addCookie = function(cookieId) {
