@@ -178,11 +178,13 @@ pollSchema.methods.checkVoteAndExpirationDates = async function(timeOfQuery) {
 	return this;
 }
 
-/* -------------------------- */
 pollSchema.methods.cookieExists = function(cookieId) {
-	//cookies are a string for somereason
+	//cookies are a string for some reason
 	return this.votedCookies.includes(cookieId.toString());
 }
+
+/* -------------------------- */
+
 
 pollSchema.methods.addCookie = function(cookieId) {
 	if (!cookieId) { //is NaN
