@@ -1,4 +1,4 @@
-var db = require('../models/linkDB');
+var db = require('../models/m_linkDB');
 // var polls = require('../models/polls');
 var polls = require('../models/m_polls');
 var cookieGenerator = require('../models/cookieGenerator.js');
@@ -34,15 +34,14 @@ router.get('/:pollLink/results', async function(req, res, next) {
 })
 
 /* user creates a poll */
-router.post('/create_poll', function(req, res, next) {
-	var linkpair = db.activateLinkPair();
-	req.body.link = linkpair[0];
-	req.body.adminLink = linkpair[1];
+router.post('/create_poll', async function(req, res, next) {
+	var linkpair = await db.activateLinkPair();
+	req.body.link = linkpair[0].name;
+	req.body.adminLink = linkpair[1].name;
 	console.log(req.body);
 	polls.addPoll(req.body, function() {
-		res.redirect('/' + linkpair[1]);
+		res.redirect('/' + linkpair[1].name);
 	});
-	/* TODO push that to a database */
 });
 
 /* user requests either poll or admin page */

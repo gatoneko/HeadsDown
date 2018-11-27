@@ -1,3 +1,4 @@
+var linkDB = require('./m_linkDB');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -57,20 +58,6 @@ pollSchema.methods.incrementOneChoice = function(choiceIndex) {
 }
 */
 
-pollSchema.methods.isAllowedToVote = function(cookieId, ip) {
-	var isAllowedToVote = true;
-	if (!(this.isCookieRestricted || this.isIpRestricted)) {
-		console.log("There are no restrictions: ");
-	}
-	if (this.isCookieRestricted && this.cookieExists(cookieId)){
-		isAllowedToVote = false;	
-	}
-	if (this.isIpRestricted && this.ipExists(ip)) {
-		isAllowedToVote = false;
-	}
-	return isAllowedToVote;
-}
-
 /* for now ignoring all validation */
 pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
 	var promise = new Promise((resolve, reject) => {
@@ -127,9 +114,15 @@ pollSchema.methods.endPoll = async function() {
 }
 
 /* When this method is called the first time, it will return vote page, next time will hang */
-pollSchema.methods.expirePoll = function() {
-	this.pollIsOpen = false;
-	return this.save();
+// pollSchema.methods.expirePoll = function() {
+// 	this.pollIsOpen = false;
+// 	return this.save();
+// }
+
+pollSchema.methods.deletePoll = async function() {
+	await linkDB.recycleLink(this.link);
+	await linkDB.recycleLink(this.adminLink);
+	await this.remove();
 }
 
 

@@ -39,6 +39,12 @@ function linkDB() {
 		return unusedLinks[getRandomInt(max)];
 	}
 
+	this.recycleLink = async function(pollLink) {
+		var link1 = await LinkModel.findOne({name: pollLink});
+		link1.inUse = false;
+		await link1.save();
+	}
+
 }
 
 
@@ -46,4 +52,6 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-module.exports = new linkDB();
+var db = new linkDB()
+
+module.exports = db
