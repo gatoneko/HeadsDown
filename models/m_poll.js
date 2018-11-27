@@ -29,15 +29,6 @@ var pollSchema = new Schema({
 });
 
 
-// pollSchema.methods.test = function() {
-// 	console.log('hello world!');
-// };
-
-// pollSchema.methods.getLink = function() {
-// 	console.log(this.link);
-// 	return this.link;
-// };
-
 /* for now not implementing multi-choice
 pollSchema.methods.decideHowToIncrement = function(choiceIndex) {
 	if (typeof choiceIndex === typeof []) {

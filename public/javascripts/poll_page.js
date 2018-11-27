@@ -5,5 +5,4 @@ function showHideResults() {
 	} else {
 		results.style.display = "none";
 	}
-	console.log("FUCK");
 }
