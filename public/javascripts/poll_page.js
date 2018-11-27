@@ -6,3 +6,7 @@ function showHideResults() {
 		results.style.display = "none";
 	}
 }
+
+function f() {
+
+}

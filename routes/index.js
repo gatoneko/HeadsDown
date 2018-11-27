@@ -30,8 +30,7 @@ router.get('/create_poll', function(req, res, next) {
 router.get('/:pollLink/results', async function(req, res, next) {
 	var result = (await polls.getPoll(req.params.pollLink)).pollInfo;
 	res.render('results', result);
-
-})
+});
 
 /* user creates a poll */
 router.post('/create_poll', async function(req, res, next) {
