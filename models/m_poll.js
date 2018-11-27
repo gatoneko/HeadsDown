@@ -88,6 +88,7 @@ pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
 		}
 	});
 	return promise;
+}
 
 /* WORKING WITH ASYNC ETC
 * ------------------------- */
