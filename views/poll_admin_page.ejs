@@ -1,19 +1,22 @@
 <% include _header %>
-	<div id="main" class="main-content">
-		<div class="border pure-u-1-5"></div>
-		<div class="pure-u-3-5">
-			<div class="content-box">
-				<h1>Your Poll's link: <b><a href=<%= link %>><%= link %></a></b></h1>
-				<h1>Your Admin page link: <b><a href=<%= adminLink %>><%= adminLink%></a></b></h1>
-				<h3><i>Don't forget your admin link to come back to this page.</i></h3>
-			</div>
-			<div class="content-box">
-				<% include _results %>
-			</div>
-			<div class="content-box">
-				<% include _poll_expires %>
-			</div>
+
+<div id="main" class="main-content">
+		<div id="main-window" class="container">
+
+	<div class="card shadow-sm">
+		<div class="container">
+			<h3>Your Poll's link: <b><a href=<%= link %>><%= link %></a></b></h3>
+			<h3>Your Admin page link: <b><a href=<%= adminLink %>><%= adminLink%></a></b></h3>
+			<h5><i>Don't forget your admin link to come back to this page.</i></h5>
 		</div>
-		<div class="border pure-u-1-5"></div>
 	</div>
+	<div class="card shadow-sm">
+		<% include _results %>
+	</div>
+	<div class="card shadow-sm">
+		<% include _poll_expires %>
+	</div>
+</div>
+</div>
+
 <% include _footer %>
