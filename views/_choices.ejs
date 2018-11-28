@@ -1,24 +1,32 @@
-<h2>Choose one response:</h2>
+<h5>Choose one response:</h5>
 
 <form action="/<%= link %>"" method="post" onsubmit="f();">
-
-	<% for (var i = 0; i < choiceTitles.length; i++) { %>
-
-	<input id="choiceIndex<%=i%>"" name="choiceIndex" value=<%= i %> type="radio"></button>
-	<label for="choiceIndex<%=i%>"> <%= choiceTitles[i]%> </label>
-	<br>
-
+	<div class="list-group">
+		<% for (var i = 0; i < choiceTitles.length; i++) { %>
+		<div id="choice<%=i%>" class="list-group-item list-group-item-action" onclick="checkOff(this)">
+			<input id="choiceIndex<%=i%>"" name="choiceIndex" value=<%= i %> type="radio">
+			<label for="choiceIndex<%=i%>"> <%= choiceTitles[i]%> </label>
+			<br>
+		</div>
 	<% } %>
+	</div>
+	<br>
+	<div class="container">
+		<% if (votersCanSeeResultsBefore) {%>
+		<div class="row">
+			<div class="col-8">
+				<a class="btn btn-secondary" href="/<%= link%>/results" role="button">View Results</a>
 
-	<div class="pure-g">
-		<div class="pure-u-1-5">
-			<% if (votersCanSeeResultsBefore) {%>
-				<a class="pure-button" href="/<%= link%>/results" type="button">View Results</a>
+			</div>
+			<div class="col-4">
+				<button class="btn btn-success" type="submit">Submit</button>
+			</div>
+
+			<% } else { %>
+			<button class="btn btn-success btn-block" type="submit">Submit</button>
 			<% }%>
 		</div>
-		<div class="pure-u-4-5">
-			<button class="pure-button pure-button-primary" type="submit">Submit</button>
-		</div>
 	</div>
+
 </form> 
 

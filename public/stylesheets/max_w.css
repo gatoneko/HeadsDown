@@ -12,8 +12,12 @@
 
 .main-content {
 	background-color: #eeeeee;
+/*	margin: 0;
+	height: 100%;*/
 }
 
 .plusminus-btn {
 	width: 2em !important;
 }
+
+/*html, body { min-height: 100%; }*/

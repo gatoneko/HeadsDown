@@ -7,6 +7,19 @@ function showHideResults() {
 	}
 }
 
-function f() {
+function f() {}
 
+function checkOff(elem) {
+	var buttonElements = document.querySelectorAll("input");
+	buttonElements.forEach ( (element) => {
+		if (element.checked === true) {
+			element.checked = false;
+		}
+	});
+	
+	var newSelection = elem.firstChild;
+	while(newSelection != null && newSelection.nodeType == 3){ // skip TextNodes
+		newSelection = newSelection.nextSibling;
+	}
+	newSelection.checked = true;
 }
