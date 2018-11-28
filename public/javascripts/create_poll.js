@@ -7,7 +7,7 @@ function addChoice() {
 	var placeholderText = "Choice " + choiceIndex;
 
 	var newInput = document.createElement("input");
-		newInput.setAttribute("class", "pure-input-1");
+		newInput.setAttribute("class", "form-control");
 		newInput.setAttribute("type", "text");
 		newInput.setAttribute("name", "choiceTitles");
 		newInput.setAttribute("placeholder", placeholderText);
@@ -18,6 +18,7 @@ function addChoice() {
 	// 	newLabel.appendChild(text);
 
 	var newDiv = document.createElement("div");
+	newDiv.setAttribute("class", "form-group");
 	// newDiv.appendChild(newLabel);
 	newDiv.appendChild(newInput);
 
