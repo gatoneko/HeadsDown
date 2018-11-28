@@ -18,12 +18,18 @@
 			</div>
 		</div>
 
+
+
 		<br>
 
 		<% if (pollIsOpen) {%>
 		<div class=" card shadow-sm content-box">
 			<div class="container">
 				<% include _choices %>
+			</div>
+			<br>
+			<div class="card shadow-sm">
+				<% include _poll_expires %>
 			</div>
 		</div>
 
@@ -36,6 +42,7 @@
 		</div>
 		<% }%>
 	</div>
+
 
 </div>
 <% include _footer %>
