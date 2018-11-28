@@ -11,7 +11,7 @@ function addChoice() {
 		newInput.setAttribute("type", "text");
 		newInput.setAttribute("name", "choiceTitles");
 		newInput.setAttribute("placeholder", placeholderText);
-		
+
 	// var newLabel = document.createElement("label");
 	// 	newLabel.setAttribute("for","choiceTitles");
 	// 	var text = document.createTextNode("Choice: ");
@@ -19,11 +19,21 @@ function addChoice() {
 
 	var newDiv = document.createElement("div");
 	newDiv.setAttribute("class", "form-group");
-	// newDiv.appendChild(newLabel);
+	newDiv.setAttribute("data-optionNo", choiceIndex);
+
 	newDiv.appendChild(newInput);
 
 	var choicesContainer = document.getElementById("choicesGroup");
 	choicesContainer.appendChild(newDiv);
+}
+
+function removeChoice() {
+	if (choiceIndex === 0) return;
+	var toRemove = document.querySelector("[data-optionNo='" + choiceIndex + "']");
+	console.log(toRemove);
+	toRemove.parentNode.removeChild(toRemove);
+	choiceIndex -= 1;
+
 }
 
 function expandOptions() {
