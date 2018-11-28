@@ -4,6 +4,15 @@ var Poll = require('../models/m_poll.js');
 function Polls(){
 
 	this.addPoll = function(paramObj, callback) {
+		var endDate = new Date();
+		endDate.setMinutes(paramObj.voteEndingDate);//adds the minutes
+		const oneWeek = 10080 //minutes
+		var expireDate = new Date();
+		expireDate.setMinutes(oneWeek);
+
+		console.log('end date: ' + endDate);
+		console.log('expire date: ' + expireDate);
+
 		var newPoll = new Poll({
 			link: paramObj.link,
 			adminLink: paramObj.adminLink,
@@ -19,8 +28,8 @@ function Polls(){
 			isIpRestricted: paramObj.isIpRestricted || false,
 			isCookieRestricted: paramObj.isCookieRestricted || false,
 
-			voteEndingDate: new Date(paramObj.voteEndingDate), //Date object. Includes min & hour
-			pollExpirationDate: new Date (paramObj.pollExpirationDate), //When poll is deleted & link recycled
+			voteEndingDate: endDate, //Date object. Includes min & hour
+			pollExpirationDate: expireDate, //When poll is deleted & link recycled
 
 			votersCanSeeResultsBefore: paramObj.votersCanSeeResultsBefore || false, // bf voting bool
 			votersCanSeeResultsAfter: paramObj.votersCanSeeResultsAfter || false,
