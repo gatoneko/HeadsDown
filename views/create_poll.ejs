@@ -51,12 +51,21 @@
 					</div>
 					<br>
 				<div class="collapse" id="a-f">		
-					<div class="form-group">
-						<label for="voteLimit">Limit number of votes to</label>
-						<input type="number" id="voteLimit" name="voteLimit" placeholder="unlimited">
+					<div>
+						<label for="voteEndingDate">Voting closes on:</label>
+						<select class="custom-select" id="voteEndingDate" name="voteEndingDate">
+							<option value="10">Ten Minutes</option>	
+							<option value="30">Thirty Minutes</option>
+							<option value="60">One Hour</option>
+							<option value="720">Twelve Hours</option>
+							<option selected value="1440">One Day</option>
+							<option value="4320">Three Days</option>
+							<option value="7200">Five Days</option>
+							<option value="10080">Seven Days</option>
+						</select>
 					</div>
 					<div class="form-group form-check">
-						<input type="checkbox" id="isCookieRestricted" name="isCookieRestricted" value="true" class="form-check-input">
+						<input type="checkbox" id="isCookieRestricted" name="isCookieRestricted" value="true" class="form-check-input" checked>
 						<label class="form-check-label" for="isCookieRestricted">Restrict voting by cookies</label>
 					</div>
 					<div class="form-group form-check">
@@ -75,14 +84,24 @@
 						<input type="checkbox" id="canSelectMultipleChoicesle" name="canSelectMultipleChoicesle" value="true" class="form-check-input">
 						<label class="form-check-label" for="canSelectMultipleChoicesle">Voters can vote for multiple choices</label>
 					</div>
-					<div>
+<!-- 					<div>
 						<label for="voteEndingDate">Voting closes on:</label>
 						<input type="date" id="voteEndingDate" name="voteEndingDate" max="2020-01-01" value="2019-01-01">
-					</div>
-					<div>
+					</div> -->
+
+					<!-- <div> -->
+		<!-- 				<label for="pollExpirationDate">This poll will exist until:</label>
+						<select class="custom-select" id="pollExpirationDate" name="pollExpirationDate">
+							<option selected value="1">One minute</option>	
+							<option selected value="1">One minute</option>
+							<option selected value="1">One minute</option>
+							<option selected value="1">One minute</option>
+						</select>
+					</div> -->
+					<!-- <div>
 						<label for="pollExpirationDate">This poll will exist until:</label>
 						<input type="datetime-local" id="pollExpirationDate" name="pollExpirationDate" max="2019-01-01T22:22:55" value="2019-01-01T22:22:55">
-					</div>
+					</div> -->
 				<br>
 			</div>
 			</form>
