@@ -33,7 +33,7 @@
 			console.log(ct);
 			var cvc = <%- JSON.stringify(choiceVoteCount) %>;
 			var myChart = new Chart(ctx, {
-				type: 'bar',
+				type: 'doughnut',
 				data: {
 					labels: ct,
 					datasets: [{
@@ -60,13 +60,13 @@
 				},
 				options: {
 					responsive: false,
-					scales: {
-						yAxes: [{
-							ticks: {
-								beginAtZero:true
-							}
-						}]
-					}
+					// scales: {
+					// 	yAxes: [{
+					// 		ticks: {
+					// 			beginAtZero:true
+					// 		}
+					// 	}]
+					// }
 				}
 			});
 		</script>
