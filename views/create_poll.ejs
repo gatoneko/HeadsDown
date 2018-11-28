@@ -3,88 +3,89 @@
 
 <div id="main" class="main-content">	
 	<div id="main-window" class="container">
-		<div id="intro-title" class="content-box"><h3>Create Straw Polls Instantly with HeadsDown</h3></div>
-		<div id="creation-form" class="content-box">
-			<h1>Create Poll</h1>
-			<form id="choiceForm" action="/create_poll" method="post" autocomplete="off" class="card shadow-sm">
-				<div class="form-group">
-					<label for="title">Title: </label>
-					<input class="form-control form-control-lg" type="text" name="title" placeholder="Type your poll question here!">
-				</div>
-				<hr>
-				<div class="container">
+		<div id="intro-title" class="content-box"><h5>Create Straw Polls Instantly with HeadsDown</h5></div>
+
+
+
+		<div id="creation-form" class="content-box card shadow-sm">
+			
+			<div class="container">
+				<h1>Create Poll</h1>
+				<form id="choiceForm" action="/create_poll" method="post" autocomplete="off" class="">
+					<div class="form-group">
+						<label for="title">Title: </label>
+						<input class="form-control form-control-lg" type="text" name="title" placeholder="Type your poll question here!">
+					</div>
+					<hr>
+
 					<div class="row">
-						<div class="form-group col-6">
+						<div class="form-group col-9">
 							<label>Choices:</label>
 						</div>
-						<div id="plusButtonDiv" class="col-4">
-							<button class="btn btn-dark plusminus" type="button" onclick="addChoice()">+</button>
-							<button class="btn btn-dark" type="button" onclick="removeChoice()">-</button>
-								</div>
-
-						<div id="choicesContainer" class="">
-							<fieldset id="choicesGroup" class="">	
-								<div class="form-group">
-									<input class="form-control" type="text" name="choiceTitles" placeholder="Choice 1" data-optionNo="1">
-								</div>
-								<div class="form-group">
-									<input class="form-control" type="text" name="choiceTitles" placeholder="Choice 2" data-optionNo="2">
-								</div>
-							</fieldset>
-						</div>	
-						
-
-
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-6">
-						<button class="btn btn-info" type="button" onclick="expandOptions()">Options</button>
+						<div id="plusButtonDiv" class="col-3">
+							<button class="btn btn-sm btn-dark plusminus " type="button" onclick="addChoice()">+</button>
+							<button class="btn btn-sm btn-dark" type="button" onclick="removeChoice()">-</button>
+						</div>
 					</div>
-					<div class="col-2">
-						<button class="btn btn-primary" type="submit">Create Poll</button>
+
+
+					<div id="choicesContainer" class="">
+						<fieldset id="choicesGroup" class="">	
+							<div class="form-group">
+								<input class="form-control" type="text" name="choiceTitles" placeholder="Choice 1" data-optionNo="1">
+							</div>
+							<div class="form-group">
+								<input class="form-control" type="text" name="choiceTitles" placeholder="Choice 2" data-optionNo="2">
+							</div>
+						</fieldset>
+					</div>
+
+					<div class="row">
+						<div class="col-7">
+							<button class="btn btn-info" type="button" onclick="expandOptions()">Options</button>
+						</div>
+						<div class="col-5">
+							<button class="btn btn-primary" type="submit">Create Poll</button>
+						</div>
+					</div>
+
+
+				<div id="adv-features" style="visibility: hidden">
+					<div class="form-group">
+						<label for="voteLimit">Limit number of votes to</label>
+						<input type="number" id="voteLimit" name="voteLimit" placeholder="unlimited">
+					</div>
+					<div class="form-group form-check">
+						<input type="checkbox" id="isCookieRestricted" name="isCookieRestricted" value="true" class="form-check-input">
+						<label class="form-check-label" for="isCookieRestricted">Restrict voting by cookies</label>
+					</div>
+					<div class="form-group form-check">
+						<input type="checkbox" id="isIpRestricted" name="isIpRestricted" value="true" class="form-check-input">
+						<label class="form-check-label" for="isIpRestricted">Restrict voting by IP adress</label>
+					</div>
+					<div class="form-group form-check">
+						<input type="checkbox" id="votersCanSeeResultsBefore" name="votersCanSeeResultsBefore" value="true" class="form-check-input">
+						<label class="form-check-label" for="votersCanSeeResultsBefore">Voters can see the results before voting</label>
+					</div>
+					<div class="form-group form-check">
+						<input type="checkbox" id="votersCanSeeResultsAfter" name="votersCanSeeResultsAfter" value="true" class="form-check-input">
+						<label class="form-check-label" for="votersCanSeeResultsAfter">Voters can see the results after voting</label>
+					</div>
+					<div class="form-group form-check">
+						<input type="checkbox" id="canSelectMultipleChoicesle" name="canSelectMultipleChoicesle" value="true" class="form-check-input">
+						<label class="form-check-label" for="canSelectMultipleChoicesle">Voters can vote for multiple choices</label>
+					</div>
+					<div>
+						<label for="voteEndingDate">Voting closes on:</label>
+						<input type="date" id="voteEndingDate" name="voteEndingDate" max="2020-01-01" value="2019-01-01">
+					</div>
+					<div>
+						<label for="pollExpirationDate">This poll will exist until:</label>
+						<input type="datetime-local" id="pollExpirationDate" name="pollExpirationDate" max="2019-01-01T22:22:55" value="2019-01-01T22:22:55">
 					</div>
 				</div>
-
-			</div>
-
-			<div id="adv-features" style="visibility: hidden">
-				<div class="form-group">
-					<label for="voteLimit">Limit number of votes to</label>
-					<input type="number" id="voteLimit" name="voteLimit" placeholder="unlimited">
-				</div>
-				<div class="form-group form-check">
-					<input type="checkbox" id="isCookieRestricted" name="isCookieRestricted" value="true" class="form-check-input">
-					<label class="form-check-label" for="isCookieRestricted">Restrict voting by cookies</label>
-				</div>
-				<div class="form-group form-check">
-					<input type="checkbox" id="isIpRestricted" name="isIpRestricted" value="true" class="form-check-input">
-					<label class="form-check-label" for="isIpRestricted">Restrict voting by IP adress</label>
-				</div>
-				<div class="form-group form-check">
-					<input type="checkbox" id="votersCanSeeResultsBefore" name="votersCanSeeResultsBefore" value="true" class="form-check-input">
-					<label class="form-check-label" for="votersCanSeeResultsBefore">Voters can see the results before voting</label>
-				</div>
-				<div class="form-group form-check">
-					<input type="checkbox" id="votersCanSeeResultsAfter" name="votersCanSeeResultsAfter" value="true" class="form-check-input">
-					<label class="form-check-label" for="votersCanSeeResultsAfter">Voters can see the results after voting</label>
-				</div>
-				<div class="form-group form-check">
-					<input type="checkbox" id="canSelectMultipleChoicesle" name="canSelectMultipleChoicesle" value="true" class="form-check-input">
-					<label class="form-check-label" for="canSelectMultipleChoicesle">Voters can vote for multiple choices</label>
-				</div>
-				<div>
-					<label for="voteEndingDate">Voting closes on:</label>
-					<input type="date" id="voteEndingDate" name="voteEndingDate" max="2020-01-01" value="2019-01-01">
-				</div>
-				<div>
-					<label for="pollExpirationDate">This poll will exist until:</label>
-					<input type="datetime-local" id="pollExpirationDate" name="pollExpirationDate" max="2019-01-01T22:22:55" value="2019-01-01T22:22:55">
-				</div>
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
-</div>
 </div>
 <% include _footer %>

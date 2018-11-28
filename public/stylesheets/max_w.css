@@ -1,9 +1,19 @@
 @media (min-width: 1200px) {
-  .container {
-    width: 970px;
+  #main-window {
+    width: 768px;
+  }
+}
+
+@media (min-width: 992px) {
+  #main-window {
+    width: 768px;
   }
 }
 
 .main-content {
 	background-color: #eeeeee;
+}
+
+.plusminus-btn {
+	width: 2em !important;
 }
