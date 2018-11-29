@@ -63,7 +63,11 @@ router.post('/:pollLink(\\w+)', async function(req, res, next) {
 	await currentPoll.incrementChoice(req.body.choiceIndex, userCookieId, req.ip);
 	//does this prevent expiring? todo look intoit
 	res.cookie('id', userCookieId, { expires: new Date(Date.now() + 900000)});
-	res.redirect('/' + req.params.pollLink + '/results');
+	if (currentPoll.votersCanSeeResultsAfter) {
+		res.redirect('/' + req.params.pollLink + '/results');
+	} else {
+		res.send('thank you for voting :)');
+	}
 });
 
 
