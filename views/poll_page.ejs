@@ -2,14 +2,14 @@
 <script type="text/javascript" src="./javascripts/poll_page.js"></script>
 <div id="main" class="main-content full-height">
 	<div id="main-window" class="container full-height">
-		<br>
+		
 		<div class="card shadow-sm content-box">
 			<div class="container">
 				<h3>Your Poll's link: <b><a href=<%= link %>><%= link %></a></b></h3>
 			</div>
 		</div>
 		
-		<br>
+		
 
 		<div class="card shadow-sm content-box">
 			<div class="container">
@@ -18,14 +18,14 @@
 			</div>
 		</div>
 
-		<br>
+		
 
 		<% if (pollIsOpen) {%>
 		<div class=" card shadow-sm content-box">
 			<div class="container">
 				<% include _choices %>
 			</div>
-			<br>
+			
 			<div class="card shadow-sm">
 				<% include _poll_expires %>
 			</div>

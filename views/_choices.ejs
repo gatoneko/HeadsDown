@@ -1,16 +1,16 @@
 <h5>Choose one response:</h5>
 
 <form action="/<%= link %>"" method="post" onsubmit="f();">
-	<div class="list-group">
+	<div class="list-group align-self-center">
 		<% for (var i = 0; i < choiceTitles.length; i++) { %>
 		<div id="choice<%=i%>" class="list-group-item list-group-item-action" onclick="checkOff(this)">
 			<input id="choiceIndex<%=i%>"" name="choiceIndex" value=<%= i %> type="radio">
 			<label for="choiceIndex<%=i%>"> <%= choiceTitles[i]%> </label>
-			<br>
+			
 		</div>
 	<% } %>
 	</div>
-	<br>
+	
 	<div class="container">
 		<% if (votersCanSeeResultsBefore) {%>
 		<div class="row">
@@ -27,6 +27,6 @@
 			<% }%>
 		</div>
 	</div>
-<br>
+
 </form> 
 
