@@ -3,14 +3,12 @@
 
 <div id="main" class="main-content full-height">	
 	<div id="main-window" class="container full-height">
-		<div id="intro-title" class="content-box"><h5>Create straw polls instantly with HeadsDown.</h5></div>
-
-
+		<div id="intro-title" class="content-box"><h2>Create straw polls instantly with HeadsDown.</h2></div>
 
 		<div id="creation-form" class="content-box card shadow-sm">
 			
 			<div class="container">
-				<br>
+				
 				<h1>Create Poll</h1>
 				<form id="choiceForm" action="/create_poll" method="post" autocomplete="off" class="">
 					<div class="form-group">
@@ -20,12 +18,12 @@
 					<hr>
 
 					<div class="row">
-						<div class="form-group col-9">
+						<div class="form-group col-7">
 							<label>Choices:</label>
 						</div>
-						<div id="plusButtonDiv" class="col-3">
-							<button class="btn btn-sm btn-dark plusminus " type="button" onclick="addChoice()">+</button>
-							<button class="btn btn-sm btn-dark" type="button" onclick="removeChoice()">-</button>
+						<div id="plusButtonDiv" class="col-5">
+							<button class="btn btn-sm btn-dark plusminus-btn float-right" type="button" onclick="removeChoice()">-</button>
+							<button class="btn btn-sm btn-dark plusminus-btn float-right" type="button" onclick="addChoice()">+</button>
 						</div>
 					</div>
 
@@ -46,10 +44,10 @@
 							<button class="btn btn-info" type="button" data-toggle="collapse" data-target="#a-f" aria-expanded="false" aria-controls="a-f">Options</button>
 						</div>
 						<div class="col-5">
-							<button class="btn btn-primary" type="submit">Create Poll</button>
+							<button class="btn btn-primary float-right" type="submit">Create Poll</button>
 						</div>
 					</div>
-					<br>
+					
 				<div class="collapse" id="a-f">		
 					<div>
 						<label for="voteEndingDate">Voting closes in:</label>
@@ -102,7 +100,7 @@
 						<label for="pollExpirationDate">This poll will exist until:</label>
 						<input type="datetime-local" id="pollExpirationDate" name="pollExpirationDate" max="2019-01-01T22:22:55" value="2019-01-01T22:22:55">
 					</div> -->
-				<br>
+				
 			</div>
 			</form>
 		</div>

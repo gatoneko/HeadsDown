@@ -24,5 +24,15 @@ html, body {
 
 .plusminus-btn {
 	width: 2em !important;
+  margin-left: .2em;
+  /*margin-right: .2em;*/
 }
 
+.container {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+/*#intro-title {
+  font-size: .82em !important;
+}*/
