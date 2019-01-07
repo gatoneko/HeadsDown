@@ -11,7 +11,7 @@ var pollSchema = new Schema({
 	choiceVoteCount: { type : Array , "default" : [] },
 	
 	votedCookies: [String],
-	votedIps: [String], /* TODO I don't know what type the ips are saved as */
+	votedIps: [String],
 
 	voteLimit: Number,
 	isIpRestricted: Boolean,
@@ -28,74 +28,6 @@ var pollSchema = new Schema({
 	pollIsExpired: Boolean,
 });
 
-/* for now ignoring all validation */
-pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
-	var promise = new Promise((resolve, reject) => {
-		if(!(this.isAllowedToVote(cookieId, ip))) {
-			resolve();
-		}
-		else {
-			var voteToInc = this.choiceVoteCount[choiceIndex] + 1;
-			this.choiceVoteCount.set(choiceIndex, voteToInc);
-			/* For now the key is same as value */
-			this.votedCookies.push(cookieId);
-			this.votedIps.push(ip);
-			this.save();
-			resolve();
-		}
-	});
-	return promise;
-}
-
-/* WORKING WITH ASYNC ETC
-* ------------------------- */
-
-pollSchema.methods.isAllowedToVote = function(cookieId, ip) {
-	var isAllowedToVote = true;
-	if (!(this.isCookieRestricted || this.isIpRestricted)) {
-		console.log("There are no restrictions: ");
-	}
-	if (this.isCookieRestricted && this.cookieExists(cookieId)){
-		isAllowedToVote = false;	
-	}
-	if (this.isIpRestricted && this.ipExists(ip)) {
-		isAllowedToVote = false;
-	}
-	return isAllowedToVote;
-}
-
-
-pollSchema.methods.incrementChoice = async function(choiceIndex, cookieId, ip){
-		if (!(this.isAllowedToVote(cookieId, ip))) {
-			return;
-		}
-			var voteToInc = this.choiceVoteCount[choiceIndex] + 1;
-			this.choiceVoteCount.set(choiceIndex, voteToInc);
-			/* For now the key is same as value */
-			this.votedCookies.push(cookieId);
-			this.votedIps.push(ip);
-			await this.save();
-}
-
-
-pollSchema.methods.endPoll = async function() {
-		this.pollIsOpen = false;
-		await this.save();
-}
-
-/* When this method is called the first time, it will return vote page, next time will hang */
-// pollSchema.methods.expirePoll = function() {
-// 	this.pollIsOpen = false;
-// 	return this.save();
-// }
-
-pollSchema.methods.deletePoll = async function() {
-	await linkDB.recycleLink(this.link);
-	await linkDB.recycleLink(this.adminLink);
-	await this.remove();
-}
-
-
 pollSchema.methods.checkVoteAndExpirationDates = async function(timeOfQuery) {
 	if (timeOfQuery > this.voteEndingDate) {
 		await this.endPoll();
@@ -109,18 +41,47 @@ pollSchema.methods.checkVoteAndExpirationDates = async function(timeOfQuery) {
 }
 
 pollSchema.methods.cookieExists = function(cookieId) {
-	//cookies are a string for some reason
+	//cookies are a string
 	return this.votedCookies.includes(cookieId.toString());
+}
+
+pollSchema.methods.deletePoll = async function() {
+	await linkDB.recycleLink(this.link);
+	await linkDB.recycleLink(this.adminLink);
+	await this.remove();
+}
+
+pollSchema.methods.endPoll = async function() {
+	this.pollIsOpen = false;
+	await this.save();
+}
+
+pollSchema.methods.incrementChoice = async function(choiceIndex, cookieId, ip){
+	if (!(this.isAllowedToVote(cookieId, ip))) {
+		return;
+	}
+	var voteToInc = this.choiceVoteCount[choiceIndex] + 1;
+	this.choiceVoteCount.set(choiceIndex, voteToInc);
+	/* For now the key is same as value */
+	this.votedCookies.push(cookieId);
+	this.votedIps.push(ip);
+	await this.save();
 }
 
 pollSchema.methods.ipExists = function(ip) {
 	return this.votedIps.includes(ip);
 }
 
-pollSchema.methods.getRandomInt = function(max) {
-		return Math.floor(Math.random() * Math.floor(max));
+pollSchema.methods.isAllowedToVote = function(cookieId, ip) {
+	var isAllowedToVote = true;
+	if (this.isCookieRestricted && this.cookieExists(cookieId)){
+		isAllowedToVote = false;	
+	}
+	if (this.isIpRestricted && this.ipExists(ip)) {
+		isAllowedToVote = false;
+	}
+	return isAllowedToVote;
 }
-
 
 var Poll = mongoose.model("Poll", pollSchema);
 

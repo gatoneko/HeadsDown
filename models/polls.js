@@ -10,9 +10,6 @@ function Polls(){
 		var expireDate = new Date();
 		expireDate.setMinutes(oneWeek);
 
-		// console.log('end date: ' + endDate);
-		// console.log('expire date: ' + expireDate);
-
 		var newPoll = new Poll({
 			link: paramObj.link,
 			adminLink: paramObj.adminLink,
@@ -48,7 +45,7 @@ function Polls(){
 
 		var pollResult = await Poll.findOne(pollPageQuery).exec();
 		var adminResult = await Poll.findOne(adminQuery).exec();
-		
+
 		var queryCompositeResult = pollResult || adminResult;
 		var isMainLink = pollResult ? true : false;
 		
