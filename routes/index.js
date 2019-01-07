@@ -63,9 +63,4 @@ router.post('/:pollLink(\\w+)', async function(req, res, next) {
   }
 });
 
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
 module.exports = router;

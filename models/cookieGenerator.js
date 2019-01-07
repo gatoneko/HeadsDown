@@ -1,11 +1,11 @@
+var getRandomInt = require('../utilities/randomIntGenerator');
+
+
 exports.createCookie = function(poll) {
-	var id = this.getRandomInt(9999);
+	var id = getRandomInt(9999);
+	console.log('id: ' + id);
 	while (poll.cookieExists(id)) {
-		id = this.getRandomInt(9999);
+		id = getRandomInt(9999);
 	}
 	return id;
-}
-
-exports.getRandomInt = function(max) {
-  return Math.floor(Math.random() * Math.floor(max));
 }

@@ -1,5 +1,6 @@
 var wordList = require('./dictionary_list');
 var LinkModel = require('./linkModel');
+var getRandomInt = require('../utilities/randomIntGenerator');
 
 // console.log(wordList.length);
 
@@ -28,7 +29,6 @@ function linkDB() {
 		/* potentially costly-- gets all unused then picks one */
 		var unusedLinks = await LinkModel.find({inUse: false}).exec();
 		var count = unusedLinks.length;
-		// console.log("count: " + count);
 		var result = this.selectRandomDoc(unusedLinks, count);
 		result.inUse = true;
 		await result.save();
@@ -45,11 +45,6 @@ function linkDB() {
 		await link.save();
 	}
 
-}
-
-/*Todo where to put random helper functions like this? */
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
 }
 
 var db = new linkDB()
