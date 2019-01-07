@@ -1,4 +1,4 @@
-var wordList = require('./dictionary_list');
+var wordList = require('../utilities/dictionary_list');
 var LinkModel = require('./linkModel');
 var getRandomInt = require('../utilities/randomIntGenerator');
 
