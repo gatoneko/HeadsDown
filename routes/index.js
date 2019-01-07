@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 
 /* GET poll creation page. */
 router.get('/create_poll', function(req, res, next) {
-   res.render('create_poll', { link: 'Heads Down', title: 'Heads Down' }); 
+   res.render('create_poll'); 
 });
 
 /* GET results page. */
@@ -29,9 +29,6 @@ router.post('/create_poll', async function(req, res, next) {
   var linkpair = await db.activateLinkPair();
   req.body.link = linkpair[0].name;
   req.body.adminLink = linkpair[1].name;
-  // polls.addPoll(req.body, function() {
-  //   res.redirect('/' + linkpair[1].name);
-  // });
   await polls.addPoll(req.body);
   res.redirect('/' + linkpair[1].name);
 });
