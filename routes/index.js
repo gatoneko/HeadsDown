@@ -1,5 +1,5 @@
 var db = require('../models/linkDB');
-var polls = require('../models/m_polls');
+var polls = require('../models/polls');
 var cookieGenerator = require('../models/cookieGenerator.js');
 var express = require('express');
 var router = express.Router();

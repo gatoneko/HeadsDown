@@ -1,7 +1,7 @@
 var wordList = require('./dictionary_list');
 var LinkModel = require('./linkModel');
 
-console.log(wordList.length);
+// console.log(wordList.length);
 
 function linkDB() {
 	this.populateDB = function() {
@@ -11,7 +11,6 @@ function linkDB() {
 				inUse: false,
 			});
 			linkObj.save((err, result) => {
-				// console.log("savedLink: " + result);
 				return result;
 			})
 		}
@@ -26,9 +25,10 @@ function linkDB() {
 	}
 
 	this.getUnusedLink = async function() {
+		/* potentially costly-- gets all unused then picks one */
 		var unusedLinks = await LinkModel.find({inUse: false}).exec();
 		var count = unusedLinks.length;
-		console.log("count: " + count);
+		// console.log("count: " + count);
 		var result = this.selectRandomDoc(unusedLinks, count);
 		result.inUse = true;
 		await result.save();
@@ -40,14 +40,14 @@ function linkDB() {
 	}
 
 	this.recycleLink = async function(pollLink) {
-		var link1 = await LinkModel.findOne({name: pollLink});
-		link1.inUse = false;
-		await link1.save();
+		var link = await LinkModel.findOne({name: pollLink});
+		link.inUse = false;
+		await link.save();
 	}
 
 }
 
-
+/*Todo where to put random helper functions like this? */
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
