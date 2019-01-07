@@ -33,3 +33,4 @@ todolist.txt
 .DS_Store
 .vscode
 .eslintrc.js
+configdb.js
