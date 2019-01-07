@@ -1,4 +1,4 @@
-var linkDB = require('./m_linkDB');
+var linkDB = require('./linkDB');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 

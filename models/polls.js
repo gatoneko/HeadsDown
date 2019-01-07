@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Poll = require('../models/m_poll.js');
+var Poll = require('../models/poll.js');
 
 function Polls(){
 
