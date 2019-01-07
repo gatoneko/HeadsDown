@@ -37,7 +37,7 @@ router.post('/create_poll', async function(req, res, next) {
 router.get(/\w+/, async function(req, res, next) {
   var linkKeyword = req.path.slice(1);
   var result = await polls.getPoll(linkKeyword);
-  if (!result.pollInfo) {next(); }
+  if (!result.pollInfo) { next(); }
   if (result.isMainLink) {
     res.render('poll_page.ejs', result.pollInfo);
   } else {
@@ -48,7 +48,7 @@ router.get(/\w+/, async function(req, res, next) {
 /* user votes on a choice */
 router.post('/:pollLink(\\w+)', async function(req, res, next) {
   var currentPoll = (await polls.getPoll(req.params.pollLink)).pollInfo;
-  //todo TEST THIS. This should use lazy evaluation to return left side if exists.
+  //This should use lazy evaluation to return left side if exists.
   var userCookieId = req.cookies.id || cookieGenerator.createCookie(currentPoll);
   await currentPoll.incrementChoice(req.body.choiceIndex, userCookieId, req.ip);
   //does this prevent expiring? todo look intoit
