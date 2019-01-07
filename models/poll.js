@@ -113,65 +113,8 @@ pollSchema.methods.cookieExists = function(cookieId) {
 	return this.votedCookies.includes(cookieId.toString());
 }
 
-/* -------------------------- */
-
-
-pollSchema.methods.addCookie = function(cookieId) {
-	if (!cookieId) { //is NaN
-		return this.addNewCookie();
-	} else {
-		this.addVotedCookie(cookieId);
-		return cookieId;
-	}
-}
-
-pollSchema.methods.addVotedCookie = function(cookieId) {
-	if (!(this.cookieExists(cookieId))) { // only unique allowed
-		this.votedCookies.push(cookieId);
-	}
-}
-
-pollSchema.methods.addNewCookie = function() {
-	var id = this.createCookieId();
-	this.votedCookies.push(id);
-	return id;
-}
-
-pollSchema.methods.createCookieId = function() {
-	var id = this.getRandomInt(9999);
-	while (this.cookieExists(id)) {
-		id = this.thisgetRandomInt(9999);
-	}
-	return id;
-}
-
-pollSchema.methods.addVotedIp = function(ip) {
-	this.votedIps.push(ip);
-}
-
-pollSchema.methods.isAdminLink = function(query) {
-	return query === this.adminLink;
-}
-
 pollSchema.methods.ipExists = function(ip) {
 	return this.votedIps.includes(ip);
-}
-
-pollSchema.methods.getLink = function() {
-	return this.link;
-}
-
-
-pollSchema.methods.isExpired = function() {
-	return this.pollIsExpired;
-}
-
-pollSchema.methods.setVotersCanSeeResultsBefore = function(boolArg) {
-	this.votersCanSeeResultsBefore = boolArg;	
-}
-
-pollSchema.methods.setVotersCanSeeResultsAfter = function(boolArg) {
-		this.votersCanSeeResultsAfter = boolArg;
 }
 
 pollSchema.methods.getRandomInt = function(max) {
