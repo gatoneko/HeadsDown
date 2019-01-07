@@ -25,8 +25,12 @@ function linkDB() {
 		return result;
 	}
 
+	/* Why don't we use findOne instead of the 
+	 * potentially costly find(which will check the whole talbe)?
+	 * If we just findOne, it will probably take the two first available alphabetically
+	 * This could be exploitable if a person can predict the links that have been used
+	 */
 	this.getUnusedLink = async function() {
-		/* potentially costly-- gets all unused then picks one */
 		var unusedLinks = await LinkModel.find({inUse: false}).exec();
 		var count = unusedLinks.length;
 		var result = this.selectRandomDoc(unusedLinks, count);
