@@ -3,15 +3,15 @@ var Poll = require('../models/poll.js');
 
 function Polls(){
 
-	this.addPoll = function(paramObj, callback) {
+	this.addPoll = async function(paramObj) {
 		var endDate = new Date();
 		endDate.setMinutes(paramObj.voteEndingDate);//adds the minutes
 		const oneWeek = 10080 //minutes
 		var expireDate = new Date();
 		expireDate.setMinutes(oneWeek);
 
-		console.log('end date: ' + endDate);
-		console.log('expire date: ' + expireDate);
+		// console.log('end date: ' + endDate);
+		// console.log('expire date: ' + expireDate);
 
 		var newPoll = new Poll({
 			link: paramObj.link,
@@ -39,25 +39,23 @@ function Polls(){
 			pollIsExpired: false,
 		});
 
-		newPoll.save(function(err, newPoll) {
-			console.log("newPoll: " + newPoll);
-			callback(newPoll);
-			return newPoll;
-		});
+		await newPoll.save(newPoll);
 	}
 
 	this.getPoll = async function(queryLink) {
 		var adminQuery = {adminLink: queryLink};
 		var pollPageQuery = {link: queryLink};
 
-
 		var pollResult = await Poll.findOne(pollPageQuery).exec();
 		var adminResult = await Poll.findOne(adminQuery).exec();
+		
 		var queryCompositeResult = pollResult || adminResult;
 		var isMainLink = pollResult ? true : false;
+		
 		if (queryCompositeResult) {
 			queryCompositeResult = await queryCompositeResult.checkVoteAndExpirationDates(new Date());
 		}
+
 		var result = {};
 		result.pollInfo = queryCompositeResult;
 		result.isMainLink = isMainLink;

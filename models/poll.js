@@ -28,27 +28,6 @@ var pollSchema = new Schema({
 	pollIsExpired: Boolean,
 });
 
-
-/* for now not implementing multi-choice
-pollSchema.methods.decideHowToIncrement = function(choiceIndex) {
-	if (typeof choiceIndex === typeof []) {
-		this.incrementManyChoices(choiceIndex);
-	} else {
-		this.incrementOneChoice(choiceIndex);
-	}
-}
-
-pollSchema.methods.incrementManyChoices = function(choiceIndexArray) {
-	for (var i = 0; i < choiceIndexArray; i++) {
-		this.incrementChoice(choiceIndexArray[i]);
-	}
-}
-
-pollSchema.methods.incrementOneChoice = function(choiceIndex) {
-	this.choiceVoteCount[choiceIndex] += 1;
-}
-*/
-
 /* for now ignoring all validation */
 pollSchema.methods.incrementChoice = function(choiceIndex, cookieId, ip){
 	var promise = new Promise((resolve, reject) => {

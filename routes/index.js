@@ -29,9 +29,11 @@ router.post('/create_poll', async function(req, res, next) {
   var linkpair = await db.activateLinkPair();
   req.body.link = linkpair[0].name;
   req.body.adminLink = linkpair[1].name;
-  polls.addPoll(req.body, function() {
-    res.redirect('/' + linkpair[1].name);
-  });
+  // polls.addPoll(req.body, function() {
+  //   res.redirect('/' + linkpair[1].name);
+  // });
+  await polls.addPoll(req.body);
+  res.redirect('/' + linkpair[1].name);
 });
 
 /* user requests either poll or admin page */
