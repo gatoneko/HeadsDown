@@ -1,6 +1,6 @@
 var db = require('../models/linkDB');
 var polls = require('../models/polls');
-var cookieGenerator = require('../models/cookieGenerator.js');
+var cookieGenerator = require('../utilities/cookieGenerator.js');
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');

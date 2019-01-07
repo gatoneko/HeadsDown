@@ -1,4 +1,4 @@
-var getRandomInt = require('../utilities/randomIntGenerator');
+var getRandomInt = require('./randomIntGenerator');
 
 
 exports.createCookie = function(poll) {
