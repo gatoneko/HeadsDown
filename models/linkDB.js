@@ -1,8 +1,10 @@
 var wordList = require('../utilities/dictionary_list');
-var LinkModel = require('./linkModel');
+// var LinkModel = require('./linkModel');
 var getRandomInt = require('../utilities/randomIntGenerator');
+var mongoose = require('mongoose');
 
-// console.log(wordList.length);
+
+var LinkModel = mongoose.model('LinkModel');
 
 function linkDB() {
   this.populateDB = function() {
