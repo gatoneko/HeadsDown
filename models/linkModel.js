@@ -6,6 +6,7 @@ var linkKeywordSchema = new Schema({
   inUse: Boolean
 });
 
+
 var LinkModel = mongoose.model('LinkModel', linkKeywordSchema);
 
 module.exports = LinkModel;
