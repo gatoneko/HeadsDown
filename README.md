@@ -1,5 +1,5 @@
 ![](src/public/images/logo_black.png)
-#HeadsDown
+# HeadsDown
 Create straw polls instantly.
 #### Features
 - Human-readable poll links
@@ -7,13 +7,13 @@ Create straw polls instantly.
 - Select when poll expires
 
 #### "Features"
-- Admin link protected by obscurity
+- Link to poll's admin protected by obscurity
 
 ## INSTALLATION
-1. ``` 
+``` 
 npm install
 ```
-2. 	Add your MongoDB connection as text file called 'config.db' in /src/utilities/
+Then,	Add your MongoDB connection as text file called 'config.db' in /src/utilities/
 
-## TODO
+### TODO
 - Allow users to vote for more than one choice.
