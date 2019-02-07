@@ -1,5 +1,7 @@
 ![](src/public/images/logo_black.png)
 # HeadsDown
+![](https://travis-ci.org/gatoneko/HeadsDown.svg?branch=master)
+
 Create straw polls instantly.
 #### Features
 - Human-readable poll links
